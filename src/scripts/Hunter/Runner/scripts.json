@@ -1,0 +1,30 @@
+[
+    {
+        "name": "Config",
+        "isActive": "yes"
+    },
+    {
+        "name": "Init",
+        "isActive": "yes"
+    },
+    {
+        "name": "Start",
+        "isActive": "yes"
+    },
+    {
+        "name": "Abort",
+        "isActive": "yes"
+    },
+    {
+        "name": "Room_Checks",
+        "isActive": "yes"
+    },
+    {
+        "name": "Movement",
+        "isActive": "yes"
+    },
+    {
+        "name": "Targetting",
+        "isActive": "yes"
+    }
+]

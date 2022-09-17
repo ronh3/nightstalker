@@ -1,0 +1,1 @@
+send('ft Requesting assistance at '..gmcp.Room.Info.name..' in '..gmcp.Room.Info.area..'!')

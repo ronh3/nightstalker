@@ -1,0 +1,361 @@
+[
+    {
+        "name": "Capture_Map_Ground",
+        "isActive": "yes",
+        "multiline": "yes",
+        "fireLength": "24",
+        "patterns":
+            [
+                {
+                    "pattern": "---",
+                    "type": "startOfLine"
+                },
+                {
+                    "pattern": "v\\d+",
+                    "type": "regex"
+                }
+            ],
+        "children":
+            [
+                {
+                    "name": "Line_Ground",
+                    "isActive": "yes",
+                    "patterns":
+                        [
+                            {
+                                "pattern": ".+",
+                                "type": "regex"
+                            }
+                        ]
+                }
+            ]
+    },
+    {
+        "name": "Switch_Ground_Map",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You disembark from",
+                    "type": "startOfLine"
+                },
+                {
+                    "pattern": "Your vision comes back into focus as your consciousness returns to your physical body.",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Capture_Map_Space",
+        "isActive": "yes",
+        "multiline": "yes",
+        "fireLength": "50",
+        "patterns":
+            [
+                {
+                    "pattern": "Location:",
+                    "type": "startOfLine"
+                },
+                {
+                    "pattern": "^Location: .+ \\(\\d+, \\d+\\)$",
+                    "type": "regex"
+                }
+            ],
+        "children":
+            [
+                {
+                    "name": "Line_Space",
+                    "isActive": "yes",
+                    "patterns":
+                        [
+                            {
+                                "pattern": ".+",
+                                "type": "regex"
+                            }
+                        ]
+                }
+            ]
+    },
+    {
+        "name": "Switch_Space_Map",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You embark the ship.",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Capture_Starchart",
+        "isActive": "yes",
+        "multiline": "yes",
+        "fireLength": "35",
+        "patterns":
+            [
+                {
+                    "pattern": "Map of the Starmourn Sector:",
+                    "type": "exactMatch"
+                },
+                {
+                    "pattern": "return sym.ui.mapper.config.starchart",
+                    "type": "lua"
+                }
+            ],
+        "children":
+            [
+                {
+                    "name": "Line_Starchart",
+                    "isActive": "yes",
+                    "patterns":
+                        [
+                            {
+                                "pattern": ".+",
+                                "type": "regex"
+                            },
+                        ]
+                },
+                {
+                    "name": "End_Starchart",
+                    "isActive": "yes",
+                    "patterns":
+                        [
+                            {
+                                "pattern": "You are in",
+                                "type": "startOfLine"
+                            }
+                        ]
+                }
+            ]
+    },
+    {
+        "name": "Check_Starchart",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "^You have entered the .+ subsec\\.$",
+                    "type": "regex"
+                },
+                {
+                    "pattern": "^You are now leaving the .+ subsec\\.$",
+                    "type": "regex"
+                }
+            ]
+    },
+    {
+        "name": "In_Space",
+        "isActive": "yes",
+        "multiline": "yes",
+        "fireLength": "35",
+        "patterns":
+            [
+                {
+                    "pattern": "return capturing == 'space'",
+                    "type": "lua"
+                }
+            ],
+        "children":
+            [
+                {
+                    "name": "Space_Prompt",
+                    "isActive": "yes",
+                    "multiline": "yes",
+                    "patterns":
+                        [
+                            {
+                                "type": "prompt"
+                            },
+                            {
+                                "pattern": "Speed: \\S+ \\((\\d+)%\\) \\| Hull: (\\d+)% \\| Shield: (\\d+)% \\| Cap: (\\d+)%",
+                                "type": "regex"
+                            }
+                        ]
+                }
+            ]
+    },
+    {
+        "name": "Settings",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "Password correct. Welcome to Starmourn.",
+                    "type": "substring"
+                }
+            ]
+    },
+    {
+        "name": "Capture_Map_Hacking",
+        "isActive": "yes",
+        "multilineDelta": "1",
+        "fireLength": "70",
+        "patterns":
+            [
+                {
+                    "pattern": "+",
+                    "type": "startOfLine"
+                }
+            ],
+        "children":
+            [
+                {
+                    "name": "Stop_Update",
+                    "isActive": "yes",
+                    "patterns":
+                        [
+                            {
+                                "pattern": "Directory list",
+                                "type": "substring"
+                            }
+                        ]
+                }
+            ]
+    },
+    {
+        "name": "Capture_Map_Hacking_2",
+        "isActive": "yes",
+        "fireLength": "2",
+        "patterns":
+            [
+                {
+                    "pattern": "Routes/",
+                    "type": "startOfLine"
+                },
+                {
+                    "pattern": "north",
+                    "type": "exactMatch"
+                },
+                {
+                    "pattern": "east",
+                    "type": "exactMatch"
+                },
+                {
+                    "pattern": "south",
+                    "type": "exactMatch"
+                },
+                {
+                    "pattern": "west",
+                    "type": "exactMatch"
+                },
+                {
+                    "pattern": "ICE/",
+                    "type": "startOfLine"
+                },
+                {
+                    "pattern": "@glitch",
+                    "type":"substring"
+                },
+                {
+                    "pattern": "@polymorphic_antivirus",
+                    "type": "substring"
+                },
+                {
+                    "pattern": "@antivirus",
+                    "type": "substring"
+                },
+                {
+                    "pattern": "@honeypot",
+                    "type": "substring"
+                },
+                {
+                    "pattern": "Devices/",
+                    "type": "startOfLine"
+                },
+                {
+                    "pattern": "@processor_array",
+                    "type": "substring"
+                },
+                {
+                    "pattern": "@decoy",
+                    "type": "substring"
+                },
+                {
+                    "pattern": "Processes/",
+                    "type": "startOfLine"
+                },
+                {
+                    "pattern": "@firewall",
+                    "type": "substring"
+                },
+                {
+                    "pattern": "@mobile",
+                    "type": "substring"
+                },
+                {
+                    "pattern": "@self",
+                    "type": "substring"
+                },
+                {
+                    "pattern": "@scanner",
+                    "type": "substring"
+                },
+                {
+                    "pattern": "self-replicating_antivirus.Replicate()",
+                    "type": "substring"
+                }
+            ],
+        "children":
+        [
+            {
+                "name": "Stop_Update_2",
+                "isActive": "yes",
+                "patterns":
+                    [
+                        {
+                            "type": "prompt"
+                        }
+                    ]
+            }
+        ]
+    },
+    {
+        "name": "Capture_Beacon",
+        "isActive": "yes",
+        "multiline": "yes",
+        "fireLength": "300",
+        "patterns":
+            [
+                {
+                    "pattern": "------------------------------< Entities Nearby >------------------------------",
+                    "type": "exactMatch"
+                }
+            ],
+        "children":
+            [
+                {
+                    "name": "Line_Beacon",
+                    "filter": "yes",
+                    "patterns":
+                        [
+                            {
+                                "pattern": ".+",
+                                "type": "regex"
+                            }
+                        ]
+                },
+                {
+                    "name": "End_Beacon",
+                    "isActive": "yes",
+                    "patterns":
+                        [
+                            {
+                                "type": "prompt"
+                            }
+                        ]
+                }
+            ]
+    },
+    {
+        "name": "Switch_Hack_Map",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You enter the commsphere.",
+                    "type": "exactMatch"
+                }
+            ]
+    }
+]

@@ -1,0 +1,58 @@
+[
+    {
+        "name": "Down_Thrust100-100",
+        "isActive": "yes"
+    },
+    {
+        "name": "East",
+        "isActive": "yes"
+    },
+    {
+        "name": "In_Halt_Board",
+        "isActive": "yes"
+    },
+    {
+        "name": "North",
+        "isActive": "yes"
+    },
+    {
+        "name": "Northeast",
+        "isActive": "yes"
+    },
+    {
+        "name": "Northwest",
+        "isActive": "yes"
+    },
+    {
+        "name": "Out_Fire",
+        "isActive": "yes"
+    },
+    {
+        "name": "Ship_Vitals",
+        "isActive": "yes"
+    },
+    {
+        "name": "Slow_Thrust",
+        "isActive": "yes"
+    },
+    {
+        "name": "South",
+        "isActive": "yes"
+    },
+    {
+        "name": "Southeast",
+        "isActive": "yes"
+    },
+    {
+        "name": "Southwest",
+        "isActive": "yes"
+    },
+    {
+        "name": "Up_Thrust100-50",
+        "isActive": "yes"
+    },
+    {
+        "name": "West",
+        "isActive": "yes"
+    }    
+]

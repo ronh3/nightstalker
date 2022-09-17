@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Launch_Ship",
+        "isActive": "yes",
+        "regex": "^ship launch$"
+    },
+    {
+        "name": "Say_Launch",
+        "isActive": "yes",
+        "regex": "^say launch$"
+    },
+    {
+        "name": "Dock_Ship",
+        "isActive": "yes",
+        "regex": "^dock ship$"
+    }
+]

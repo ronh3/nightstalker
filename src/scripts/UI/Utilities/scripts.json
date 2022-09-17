@@ -1,0 +1,34 @@
+[
+    {
+        "name": "CSSMAN",
+        "isActive": "yes"
+    },
+    {
+        "name": "Geyser_Additions",
+        "isActive": "yes"
+    },
+    {
+        "name": "Table_Additions",
+        "isActive": "yes"
+    },
+    {
+        "name": "Register_Events",
+        "isActive": "yes"
+    },
+    {
+        "name": "Skill_Checker",
+        "isActive": "yes"
+    },
+    {
+        "name": "Table Persistance",
+        "isActive": "yes"
+    },
+    {
+        "name": "toboolean",
+        "isActive": "yes"
+    },
+    {
+        "name": "Echo",
+        "isActive": "yes"
+    }
+]

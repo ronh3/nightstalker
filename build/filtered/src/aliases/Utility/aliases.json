@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Help_Me",
+        "isActive": "yes",
+        "regex": "^helpme$"
+    },
+    {
+        "name": "My_Location",
+        "isActive": "yes",
+        "regex": "^myloc$"
+    }
+]

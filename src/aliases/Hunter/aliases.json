@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Runner",
+        "isActive": "yes",
+        "regex": "^hr (init|start|abort)$"
+    },
+    {
+        "name": "Toggle",
+        "isActive": "yes",
+        "regex": "^ht$"
+    },
+    {
+        "name": "Set_Party_Size",
+        "isActive": "yes",
+        "regex": "^hps(?: (\\d+))?$"
+    }
+]

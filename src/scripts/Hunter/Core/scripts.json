@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Core_Logic",
+        "isActive": "yes"
+    },
+    {
+        "name": "System",
+        "isActive": "yes"
+    },
+    {
+        "name": "Reset",
+        "isActive": "yes"
+    }
+]

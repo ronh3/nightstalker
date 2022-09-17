@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Update",
+        "isActive": "yes"
+    },
+    {
+        "name": "Item_Events",
+        "isActive": "yes"
+    },
+    {
+        "name": "Player_Events",
+        "isActive": "yes"
+    },
+    {
+        "name": "Target_Events",
+        "isActive": "yes"
+    },
+    {
+        "name": "Rotate_Target",
+        "isActive": "yes"
+    }
+]

@@ -1,0 +1,30 @@
+[
+    {
+        "name": "Stylesheet",
+        "isActive": "yes"
+    },
+    {
+        "name": "Set_Borders",
+        "isActive": "yes"
+    },
+    {
+        "name": "Create_Background",
+        "isActive": "yes"
+    },
+    {
+        "name": "Create_Boxes",
+        "isActive": "yes"
+    },
+    {
+        "name": "Create_Gauges",
+        "isActive": "yes"
+    },
+    {
+        "name": "GMCP_Additions",
+        "isActive": "yes"
+    },
+    {
+        "name": "Mindsim_Interface",
+        "isActive": "yes"
+    }
+]
