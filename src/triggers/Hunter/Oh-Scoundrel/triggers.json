@@ -1,0 +1,68 @@
+[
+    {
+        "name": "Ambush",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "Without warning, you snatch",
+                    "type": "startOfLine"
+                }
+            ]
+    },
+    {
+        "name": "Ambush_Cooldown",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You are again ready to ambush.",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Dualshot",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "Placing your hand on the hammer of",
+                    "type": "startOfLine"
+                }
+            ]
+    },
+    {
+        "name": "Dualshot_Cooldown",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You are again ready to dualshoot.",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Stim",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You jam a stim into your vein and healing nanites surge through your body.",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Stim_Cooldown",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You can again use a stim.",
+                    "type": "exactMatch"
+                }
+            ]
+    }
+]

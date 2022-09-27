@@ -1,0 +1,61 @@
+[
+    {
+        "name": "Backhand",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You overdrive your suit's movement circuits",
+                    "type": "startOfLine"
+                }
+            ]
+    },
+    {
+        "name": "Support",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You activate your suit's emergency life support system",
+                    "type": "startOfLine"
+                }
+            ]
+    },
+    {
+        "name": "Support_Cooldown",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "Your HUD indicates that you may use your life support system once again.",
+                    "type": "startOfLine"
+                }
+            ]
+    },
+    {
+        "name": "Contingency",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You activate the contingency module in",
+                    "type": "startOfLine"
+                },
+                {
+                    "pattern": "You are already prepared to fire the jumpjets when in",
+                    "type": "startOfLine"
+                }
+            ]
+    },
+    {
+        "name": "Contingency_Fired",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You trigger your B",
+                    "type": "startOfLine"
+                }
+            ]
+    }
+]

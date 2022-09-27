@@ -1,0 +1,117 @@
+[
+    {
+        "name": "Backfire_Tracking",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "^(\\w+) System: .+ Backfiring: (\\w+)",
+                    "type": "regex"
+                }
+            ]
+    },
+    {
+        "name": "Vitals_Gag",
+        "isActive": "yes",
+        "fireLength": "14",
+        "patterns":
+            [
+                {
+                    "pattern": "^-- .+ \\((\\w+)\\) -- Damage .+-----------------------------$",
+                    "type": "regex"
+                }
+            ]
+    },
+    {
+        "name": "Missile_Counter",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "^Missile launch detected from .+, ETA (.+)\\.$",
+                    "type": "regex"
+                }
+            ]
+    },
+    {
+        "name": "Countermeasures",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "The ship shoots countermeasures around its hull.",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Countermeasures_Cooldown",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "The ship is again ready to fire countermeasures.",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Weapon_Autoassign_Module",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "^Module #(\\d+) - \\b(.+)\\b\\s+(Active|Inactive)$",
+                    "type": "regex"
+                }
+            ]
+    },
+    {
+        "name": "Empty_Beacon_Gag",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You send out your beacon, but there is nothing within range.",
+                    "type": "exactMatch"
+                },
+                {
+                    "pattern": "Keying a switch on your navigation console, you do a scan of the surrounding area.",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Reload",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "^.+\\#(\\d+) has 0 ammunition loaded\\.$",
+                    "type": "regex"
+                }
+            ]
+    },
+    {
+        "name": "Ship_Balance",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You have recovered your balance.",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Auto_Tether",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "^.+ halts gracefully to avoid collision with asteroid\\.$",
+                    "type": "regex"
+                }
+            ]
+    }
+]

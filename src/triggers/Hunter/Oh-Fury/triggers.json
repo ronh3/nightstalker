@@ -1,0 +1,68 @@
+[
+    {
+        "name": "Unstoppable",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "Your rage overwhelms you, you become unstoppable!",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Unstoppable_Off",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You no longer feel unstoppable!",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Suffused",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "The heart of distant stars and the fire at the center of every planet shimmers in your mind,",
+                    "type": "startOfLine"
+                }
+            ]
+    },
+    {
+        "name": "Suffuse_Cooldown",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "It is safe to suffuse yourself with kith energy again.",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Resistant",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You focus your rage to become more resistant to damage.",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": " Resistant_Off",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You are less resistant.",
+                    "type": "exactMatch"
+                }
+            ]
+    }
+]

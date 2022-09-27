@@ -1,0 +1,1 @@
+sym.hunter.class[gmcp.Char.Status.class](sym.target)

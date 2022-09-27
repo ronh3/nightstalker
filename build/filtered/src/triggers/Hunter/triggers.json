@@ -1,0 +1,39 @@
+[
+    {
+        "name": "Hunting_Balance",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You have recovered your balance.",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Reset_Target_Party",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "^(.+) has been slain by (.+)\\.$",
+                    "type": "regex"
+                }
+            ]
+    },
+    {
+        "name": "Reset_Target",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You have slain (.+)\\.$",
+                    "type": "regex"
+                },
+                {
+                    "pattern": "You have defeated (.+)\\.$",
+                    "type": "regex"
+                }
+            ]
+    }
+]

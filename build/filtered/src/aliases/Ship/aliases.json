@@ -12,6 +12,6 @@
     {
         "name": "Dock_Ship",
         "isActive": "yes",
-        "regex": "^dock ship$"
+        "regex": "^ship dock$"
     }
 ]

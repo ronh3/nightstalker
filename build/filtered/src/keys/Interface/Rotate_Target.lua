@@ -1,0 +1,1 @@
+sym.ui.rotateroomtarget()

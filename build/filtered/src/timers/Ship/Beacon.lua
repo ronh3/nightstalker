@@ -1,0 +1,1 @@
+if OnShip then sendAll("ship details damage", "ship beacon", false) end

@@ -1,0 +1,10 @@
+[
+    {
+        "name": "A_Thing",
+        "isActive": "yes"
+    },
+    {
+        "name": "Load_Tables",
+        "isActive": "yes"
+    }
+]

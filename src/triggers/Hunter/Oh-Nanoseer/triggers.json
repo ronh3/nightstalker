@@ -1,0 +1,94 @@
+[
+    {
+        "name": "Multistrike",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You focus intently to direct a portion of your swarm towards",
+                    "type": "startOfLine"
+                }
+            ]
+    },
+    {
+        "name": "Nanites_Return",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "The group of nanites returns back to you.",
+                    "type": "exactMatch"
+                },
+                {
+                    "pattern": "The nanites disperse, no longer striking at",
+                    "type": "startOfLine"
+                }
+            ]
+    },
+    {
+        "name": "Frozen",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You brush your fingertips across",
+                    "type": "startOfLine"
+                }
+            ]
+    },
+    {
+        "name": "Frozen_Cured",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "^(.+) has cured the effects of Frozen\\.$",
+                    "type": "regex"
+                }
+            ]
+    },
+    {
+        "name": "Frenzy",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "A dark wave of madness rolls through your thoughts, and an impossibly vast mind seems to descend over your own, the Conquerer arriving to drive you into a dangerous frenzy.",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Frenzy_Off",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You break out of your frenzy.",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Embrace",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You: Voidism Embrace.",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Embrace_Cooldown",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You can once again embrace the surrounding energies.",
+                    "type": "exactMatch"
+                }
+            ]
+    }
+]

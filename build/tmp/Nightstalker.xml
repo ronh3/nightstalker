@@ -3,7 +3,7 @@
   <ScriptPackage>
     <ScriptGroup isActive="yes" isFolder="yes">
         
-      <name>UI</name>
+      <name>Silliness</name>
       <script/>
         
       <packageName/>
@@ -12,7 +12,7 @@
 </eventHandlerList>
       <ScriptGroup isActive="yes" isFolder="yes">
           
-        <name>Interface</name>
+        <name>Extra Silly</name>
         <script/>
           
         <packageName/>
@@ -21,7 +21,7 @@
 </eventHandlerList>
         <ScriptGroup isActive="yes" isFolder="yes">
             
-          <name>Information</name>
+          <name>Hunter</name>
           <script/>
             
           <packageName/>
@@ -30,7 +30,7 @@
 </eventHandlerList>
           <ScriptGroup isActive="yes" isFolder="yes">
               
-            <name>Room</name>
+            <name>Class</name>
             <script/>
               
             <packageName/>
@@ -39,8 +39,703 @@
 </eventHandlerList>
             <Script isActive="yes" isFolder="no">
                 
-              <name>Update</name>
-              <script>function sym.ui.update_room()
+              <name>A_Thing</name>
+              <script>sym.hunter.class = sym.hunter.class or {}</script>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                
+              <name>BEAST</name>
+              <script>sym.hunter.class['B.E.A.S.T.'] = function()
+    local target = sym.target
+    if not sym.hunter.flags.contingency then
+      sym.hunter.send('contingency')
+    end
+    if not sym.hunter.flags.support and ((gmcp.Char.Vitals.hp / gmcp.Char.Vitals.maxhp) * 100) &lt; 75 then
+      sym.hunter.send('suit support')
+    elseif not sym.hunter.flags.backhand then
+      sym.hunter.send('suit backhand '..target)
+    else
+      sym.hunter.send('mwp wristblade '..target)
+    end
+  end</script>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                
+              <name>Engineer</name>
+              <script>sym.hunter.class['Engineer'] = function()
+    local target = sym.target
+    local sym_name = gmcp.Char.Name.name
+    if not sym.hunter.flags.stimjected and not sym.hunter.flags.autoheal and sym.haveskill('Stimjectors', 'Gadgets') and ((gmcp.Char.Vitals.hp / gmcp.Char.Vitals.maxhp) * 100) &lt; 75 then
+      sym.hunter.send('stimjector ' .. sym_name)
+    elseif not sym.hunter.flags.repeated and sym.haveskill('Repeat', 'Bots') and tonumber(string.match(gmcp.IRE.Target.Info.hpperc, '%d+')) &gt; 75 then
+      sym.hunter.send('bot repeat claw '..target)
+    elseif not sym.hunter.flags.harassed and sym.haveskill('Harass', 'Bots') then
+      sym.hunter.send('bot harass '..target)
+    elseif sym.hunter.flags.repeating and sym.haveskill('Shock', 'Gadgets') then
+      sym.hunter.send('gadget shock '..target)
+    else
+      sym.hunter.send('bot claw '..target)
+    end
+  end</script>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                
+              <name>Fury</name>
+              <script>sym.hunter.class['Fury'] = function()
+    local target = sym.target
+    local stance = gmcp.Char.Vitals.st:lower()
+    local rage = tonumber(gmcp.Char.Vitals.rg)
+    
+  if not sym.hunter.flags.suffused and ((gmcp.Char.Vitals.hp / gmcp.Char.Vitals.maxhp) * 100) &lt; 75 then
+    sym.hunter.send("suffuse")
+   elseif sym.haveskill('Burn', 'Fulmination') then
+    sym.hunter.send("kith burn " .. target)
+   else
+     sym.hunter.send("kill " .. target)
+  end
+          
+    -- for later when you have all yours skills, one way to do a bashing route for fury
+    
+   --     if
+   --       not sym.hunter.flags.suffused and
+   --       ((gmcp.Char.Vitals.hp / gmcp.Char.Vitals.maxhp) * 100) &lt; 71 then
+   --       sym.hunter.send("suffuse")
+   --     elseif sym.hunter.flags.unstoppable == true and sym.hunter.flags.overpower == false then
+   --       local to_combo =
+   --         {
+   --           ['symmetry'] = 'combo gutrend overpower',
+   --           ['flare'] = 'combo wound overpower',
+   --           ['eruption'] = 'combo rupture overpower',
+   --         }
+   --       sym.hunter.send(to_combo[stance] .. ' ' .. target)
+   --     else
+   --       if sym.hunter.flags.unstoppable == true then
+   --         local to_combo =
+   --           {
+   --             ['symmetry'] = 'combo gutrend slice',
+   --             ['flare'] = 'combo wound slice',
+   --             ['eruption'] = 'combo rupture slice',
+   --           }
+   --         sym.hunter.send(to_combo[stance] .. ' ' .. target)
+   --       else
+   --         if sym.hunter.flags.unstoppableready == true then
+   --           local to_combo =
+   --             {
+   --               ['symmetry'] = 'combo gutrend unstoppable',
+   --               ['flare'] = 'combo wound unstoppable',
+   --               ['eruption'] = 'combo hypertension unstoppable',
+   --             }
+   --           sym.hunter.send(to_combo[stance] .. ' ' .. target)
+   --         else
+   --           if not sym.hunter.flags.berserk and rage &gt; 10 then
+   --             local to_combo =
+   --               {
+   --                 ['symmetry'] = 'combo gutrend berserk',
+   --                 ['flare'] = 'combo wound deepstrike',
+   --                 ['eruption'] = 'combo rupture berserk',
+   --               }
+   --             sym.hunter.send(to_combo[stance] .. ' ' .. target)
+   --           else
+   --             local to_combo =
+   --               {
+   --                 ['symmetry'] = 'combo gutrend flyinglash',
+   --                 ['flare'] = 'combo wound deepstrike',
+   --                 ['eruption'] = 'combo rupture flyinglash',
+   --               }
+   --             sym.hunter.send(to_combo[stance] .. ' ' .. target)
+   --           end
+   --         end
+   --       end
+   --     end
+  
+  end</script>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                
+              <name>Nanoseer</name>
+              <script>sym.hunter.class['Nanoseer'] = function(target)
+    if not sym.hunter.flags.repaired and sym.haveskill('Embrace', 'Voidism') and ((gmcp.Char.Vitals.hp / gmcp.Char.Vitals.maxhp) * 100) &lt; 75 then
+      sym.hunter.send('void embrace')
+    elseif not sym.hunter.flags.multistrike and sym.haveskill('Multistrike', 'Nanotech') then
+      sym.hunter.send('nano multistrike '..target)
+    elseif not sym.hunter.flags.frozen and sym.haveskill('Freeze', 'Voidism') then
+      sym.hunter.send('void freeze '..target)
+    else
+      sym.hunter.send('nano swarm '..target)
+    end
+  end</script>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                
+              <name>Scoundrel</name>
+              <script>sym.hunter.class['Scoundrel'] = function()
+    local target = sym.target
+    local bullets = tonumber(gmcp.Char.Vitals.bl)
+    if not sym.hunter.flags.stimmed and sym.haveskill('Stim', 'Guile') and ((gmcp.Char.Vitals.hp / gmcp.Char.Vitals.maxhp) * 100) &lt; 75 then
+      sym.hunter.send('guile stim')
+    elseif bullets == 0 then
+      if sym.haveskill ('Fling', 'Improvisation') then
+        sym.hunter.send('ied fling shrapnel ripper at '..target)
+      elseif sym.haveskill ('Pocketsand', 'Guile') then
+        sym.hunter.send('guile pocketsand '..target)
+      elseif sym.haveskill ('Spin', 'Gunslinging') then
+        sym.hunter.send('gun spin '..target)
+      else
+        sym.hunter.send('gun quickload')
+      end
+    elseif not sym.hunter.flags.ambushed and sym.haveskill('Ambush', 'Gunslinging') then
+      sym.hunter.send('gun ambush '..target)
+    elseif not sym.hunter.flags.dualshot and sym.haveskill('Rapidfire', 'Gunslinging') and bullets &gt;= 2 then
+      sym.hunter.send('gun rapidfire '..target)
+    else
+      sym.hunter.send('gun crackshot '..target)
+    end
+  end</script>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              
+            </Script>
+            
+          </ScriptGroup>
+          <ScriptGroup isActive="yes" isFolder="yes">
+              
+            <name>Core</name>
+            <script/>
+              
+            <packageName/>
+            
+            <eventHandlerList>
+</eventHandlerList>
+            <Script isActive="yes" isFolder="no">
+                
+              <name>Core_Logic</name>
+              <script>sym.hunter.send = function(cmd)
+    if debug.traceback():find('Trigger', 1, true) then
+      decho(' &lt;51,0,255&gt;(&lt;242,234,233&gt;'..cmd..'&lt;51,0,255&gt;)')
+    end
+    send(cmd, false)
+  end
+  
+  sym.hunter.triggy = function(class)
+    class = class:lower()
+  
+    local clist = {'b.e.a.s.t.', 'scoundrel', 'nanoseer', 'engineer', 'fury'}
+  
+    for _, c in ipairs(clist) do
+      (c == class and enableTrigger or disableTrigger)('oh-'..c)
+    end
+  end
+  
+  sym.hunter.setignore = function(name)
+    sym.hunter.ignore[name] = not sym.hunter.ignore[name]
+    -- and because my ocd can't handle it
+    if not sym.hunter.ignore[name] then sym.hunter.ignore[name] = nil end
+    sym.savetable('hunter.ignore')
+    sym.ui.update_room()
+  end
+  
+  sym.hunter.setexception = function(name)
+    sym.hunter.exceptions[name] = not sym.hunter.exceptions[name]
+    -- it's actually necessary here, though
+    if not sym.hunter.exceptions[name] then sym.hunter.exceptions[name] = nil end
+    sym.savetable('hunter.exceptions')
+    sym.ui.update_room()
+  end
+  
+  sym.hunter.checktarget = function()
+    local area = gmcp.Room.Info.area
+    local prios = sym.hunter.priorities[area]
+    local ignore = sym.hunter.ignore
+    local exceptions = table.keys(sym.hunter.exceptions)
+    local mobs = {}
+  
+    table.foreach(sym.ui.roommobs, function(i, mob)
+      if not mob.attrib:find('x', 1, true) and (not mob.name:find('[A-Z]') or table.contains(exceptions, mob.name)) and not ignore[mob.name] then
+        mobs[mob.name] = mob
+      end
+    end)
+  
+    if prios then
+      for _, mob in ipairs(prios) do
+        if mobs[mob] then return mobs[mob] end
+      end
+    end
+  
+    if next(mobs) then
+      return select(2, next(mobs))
+    end
+  
+    return false
+  end
+  
+  function checkSystems()
+      local vitals = gmcp.Char.Vitals
+      local sym_ww = (vitals.ww == "1" and true or false)
+    local efficacy = {"wetwiring_efficacy", "muscular_efficacy", "mind_efficacy", "internal_efficacy", "sensory_efficacy"}
+      local systems = {"wetwiring", "muscular", "mind", "internal", "sensory"}
+      if not sym_ww then return end
+      for _, system in pairs(systems) do
+          local value = math.floor(tonumber(vitals[system]))
+      local evalue = tonumber(vitals[efficacy[_]])
+          if value &lt;= 92.5 and evalue &gt;= 85 then
+              send("ww mend "..system,false)
+              break
+          end
+      end
+  end</script>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                
+              <name>System</name>
+              <script>sym.hunter.system = {
+    start = function()
+      enableTrigger('hunting balance')
+  
+      sym.setmodule('Hunting', true)
+  
+      sym.hunter.triggy(gmcp.Char.Status.class)
+  
+      if not debug.traceback():find('Trigger', 1, true) then
+        send('look', false)
+      end
+    end,
+    stop = function()
+      disableTrigger('hunting balance')
+  
+      sym.setmodule('Hunting', false)
+    end,
+  }</script>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                
+              <name>Reset</name>
+              <script>sym.hunter.reset = {
+
+    ['B.E.A.S.T.'] = function()
+      sym.hunter.flags.backhand = false
+    end,
+  
+    ['Scoundrel'] = function()
+    end,
+  
+    ['Nanoseer'] = function()
+      sym.hunter.flags.frozen = false
+    end,
+  
+    ['Engineer'] = function()
+    end,
+  
+    ['Fury'] = function()
+    end
+  
+  }</script>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              
+            </Script>
+            
+          </ScriptGroup>
+          <ScriptGroup isActive="yes" isFolder="yes">
+              
+            <name>Priorities</name>
+            <script/>
+              
+            <packageName/>
+            
+            <eventHandlerList>
+</eventHandlerList>
+            <Script isActive="yes" isFolder="no">
+                
+              <name>A_Thing</name>
+              <script>sym.hunter.priorities = sym.hunter.priorities or {}</script>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                
+              <name>Locorin_Swamp</name>
+              <script>sym.hunter.priorities['The Locorin Swamp'] = {
+    'a blacktooth coroxodon',
+    'a ruby-plumed eskama',
+    'a mossy shellback',
+    'a Grethen Silkmoth'
+  }</script>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                
+              <name>Golpu_Desert</name>
+              <script/>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              
+            </Script>
+            
+          </ScriptGroup>
+          <ScriptGroup isActive="yes" isFolder="yes">
+              
+            <name>Runner</name>
+            <script/>
+              
+            <packageName/>
+            
+            <eventHandlerList>
+</eventHandlerList>
+            <Script isActive="yes" isFolder="no">
+                
+              <name>Config</name>
+              <script>sym.hunter.runner.config = sym.hunter.runner.config or {}
+sym.hunter.runner.config.returnToStart = false
+sym.hunter.runner.config.calling = false
+sym.hunter.runner.config.party = 1</script>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                
+              <name>Init</name>
+              <script>function sym.hunter.runner:init()
+	decho('&lt;0,128,128&gt;Genrunner mapping area from: &lt;128,128,0&gt;' .. getRoomAreaName(getRoomArea(gmcp.Room.Info.num))..'\n')
+	local rooms = getAreaRooms(getRoomArea(gmcp.Room.Info.num))
+	sym.hunter.runner.rooms = {}
+	sym.hunter.runner.reverse = {}
+	for _,vnum in pairs(rooms) do
+		if getPath(gmcp.Room.Info.num, vnum) then
+			sym.hunter.runner.rooms[vnum] = {}
+			local exits = getRoomExits(vnum)
+			for dir, toRoom in pairs(exits) do
+				sym.hunter.runner.rooms[vnum][toRoom] = {
+					dir = dir,
+				}
+			end
+		end
+	end
+	sym.hunter.runner.rooms[gmcp.Room.Info.num] = {}
+	local exits = getRoomExits(gmcp.Room.Info.num)
+	for dir, toRoom in pairs(exits) do
+		sym.hunter.runner.rooms[gmcp.Room.Info.num][toRoom] = {
+			dir = dir,
+		}
+	end
+	sym.hunter.runner.roomsLeft = {}
+	sym.hunter.runner.startRoom = gmcp.Room.Info.num
+	for vnum, exits in pairs(sym.hunter.runner.rooms) do
+		if vnum ~= sym.hunter.runner.startRoom then
+			sym.hunter.runner.roomsLeft[vnum] = true
+		end
+	end
+
+	sym.hunter.runner.walkingTo = gmcp.Room.Info.num
+
+	decho('&lt;128,128,0&gt;'..table.size(sym.hunter.runner.roomsLeft)..'&lt;0,128,128&gt; rooms mapped!\n')
+end</script>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                
+              <name>Start</name>
+              <script>function sym.hunter.runner:start()
+	sym.hunter.runner.enabled = true
+  sym.hunter.system.start()
+end</script>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                
+              <name>Abort</name>
+              <script>function sym.hunter.runner:abort()
+	mmp.stop()
+	sym.hunter.runner.walking = false
+	sym.hunter.runner.rooms = {}
+	sym.hunter.runner.walkingTo = 0
+	sym.hunter.runner.backtracking = false
+	sym.hunter.runner.enabled = false
+  sym.hunter.system.stop()
+	if sym.hunter.runner.config.returnToStart then
+		decho("&lt;0,128,128&gt;Returning you to your starting room!\n")
+    expandAlias('goto ' .. sym.hunter.runner.startRoom)
+	end
+end</script>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                
+              <name>Room_Checks</name>
+              <script>function sym.hunter.checkroom()
+    if not sym.hunter.nextroom() then
+      sym.hunter.previousroom()
+    end
+  end
+  
+  function sym.hunter.nextroom()
+      if not sym.hunter.runner.enabled then return false end
+  
+      if sym.hunter.runner.walkingTo ~= gmcp.Room.Info.num then return false end
+  
+      for vnum, roomInfo in pairs(sym.hunter.runner.rooms[gmcp.Room.Info.num]) do
+          if sym.hunter.runner.roomsLeft[vnum] then
+              sym.hunter.runner.walkingTo = vnum
+              table.insert(sym.hunter.runner.reverse, gmcp.Room.Info.num)
+        expandAlias('goto ' .. vnum)
+              return true
+          end
+      end
+  
+    return false
+  end
+  
+  function sym.hunter.previousroom()
+      sym.hunter.runner.backracking = true
+      if #sym.hunter.runner.reverse &gt; 0 then
+          sym.hunter.runner.walkingTo = table.remove(sym.hunter.runner.reverse)
+          expandAlias('goto '..sym.hunter.runner.walkingTo)
+      else
+          sym.hunter.runner.enabled = false
+      sym.hunter.system.stop()
+          decho('&lt;0,128,128&gt;Hunting completed!\n')
+      end
+  end
+  
+  sym.registerevent('runner check', 'empty_room', 'sym.hunter.checkroom')</script>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                
+              <name>Movement</name>
+              <script>function sym.hunter.movement()
+    if not sym.checkmodule('Hunting') then return end
+    if sym.hunter.runner.enabled then
+      if sym.hunter.runner.enabled and gmcp.Room.Info.num == sym.hunter.runner.walkingTo then
+        sym.hunter.runner.roomsLeft[gmcp.Room.Info.num] = nil
+      end
+    end
+    if sym.hunter.runner.moving_timer then killTimer(sym.hunter.runner.moving_timer) end
+    sym.hunter.runner.moving_timer = tempTimer(0.5 + getNetworkLatency(), function()
+      if #gmcp.Room.Players &gt; sym.hunter.runner.config.party then
+        decho('\n&lt;0,128,128&gt;Skipping room. Another player is here! &lt;128,128,0&gt;'..#gmcp.Room.Players..'\n')
+        raiseEvent('empty_room')
+      elseif not room_updated then
+        timeframe('room_updated', 0, 0.5)
+        raiseEvent('room_updated')
+      end
+    end)
+  end
+  
+  sym.registerevent('runner movement', 'gmcp.Room.Info', 'sym.hunter.movement')</script>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                
+              <name>Targetting</name>
+              <script>function sym.hunter.targetting()
+    if sym.hunter.runner.enabled and sym.hunter.runner.walkingTo ~= gmcp.Room.Info.num then
+      return false
+    end
+  
+    local mob = sym.hunter.checktarget()
+  
+    if mob then
+      local target = gmcp.Char.Status.target:match('%d+')
+      if target and mob.id == target then return end
+      sym.echo('&lt;0,128,128&gt;Next Target: &lt;128,128,0&gt;' .. mob.name .. '&lt;0,128,128&gt; (&lt;128,128,0&gt;' .. mob.id .. '&lt;0,128,128&gt;)\n')
+      enableTrigger('hunting balance')
+      send('st ' .. mob.id, false)
+      if sym.hunter.runner.config.calling then
+        send('crt Target: '..mob.id, false)
+      end
+    else
+      sym.echo('&lt;156,0,0&gt;There are no suitable targets left.\n')
+      disableTrigger('hunting balance')
+      if sym.hunter.runner.enabled then
+        if sym.hunter.runner.empty_timer then killTimer(sym.hunter.runner.empty_timer) end
+        sym.hunter.runner.empty_timer = tempTimer(3 + getNetworkLatency(), [[raiseEvent('empty_room')]])
+      end
+    end
+  end
+  
+  sym.registerevent('hunter targetting', 'room_updated', 'sym.hunter.targetting')</script>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              
+            </Script>
+            
+          </ScriptGroup>
+          <Script isActive="yes" isFolder="no">
+              
+            <name>A_Thing</name>
+            <script>sym.hunter = sym.hunter or {}
+sym.hunter.flags = sym.hunter.flags or {}
+sym.hunter.runner = sym.hunter.runner or {}
+
+sym.loadtable('hunter.ignore')
+sym.loadtable('hunter.exceptions')</script>
+              
+            <packageName/>
+            
+            <eventHandlerList>
+</eventHandlerList>
+            
+          </Script>
+          <Script isActive="yes" isFolder="no">
+              
+            <name>Load_Tables</name>
+            <script>sym.loadtable('hunter.ignore')
+sym.loadtable('hunter.exceptions')</script>
+              
+            <packageName/>
+            
+            <eventHandlerList>
+</eventHandlerList>
+            
+          </Script>
+          
+        </ScriptGroup>
+        <ScriptGroup isActive="yes" isFolder="yes">
+            
+          <name>UI</name>
+          <script/>
+            
+          <packageName/>
+          
+          <eventHandlerList>
+</eventHandlerList>
+          <ScriptGroup isActive="yes" isFolder="yes">
+              
+            <name>Interface</name>
+            <script/>
+              
+            <packageName/>
+            
+            <eventHandlerList>
+</eventHandlerList>
+            <ScriptGroup isActive="yes" isFolder="yes">
+                
+              <name>Information</name>
+              <script/>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              <ScriptGroup isActive="yes" isFolder="yes">
+                  
+                <name>Room</name>
+                <script/>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
+</eventHandlerList>
+                <Script isActive="yes" isFolder="no">
+                    
+                  <name>A_Thing</name>
+                  <script>sym.ui.roomplayers = sym.ui.roomplayers or {}
+sym.ui.roommobs = sym.ui.roommobs or {}
+sym.ui.roomitems = sym.ui.roomitems or {}
+sym.ui.roomfilters = sym.ui.roomfilters or {}</script>
+                    
+                  <packageName/>
+                  
+                  <eventHandlerList>
+</eventHandlerList>
+                  
+                </Script>
+                <Script isActive="yes" isFolder="no">
+                    
+                  <name>Update</name>
+                  <script>function sym.ui.update_room()
     clearWindow('infowinRoom')
   
     local r = sym.ui.info.config.windowcolours.r
@@ -114,17 +809,17 @@
       ))
     end
   end</script>
-                
-              <packageName/>
-              
-              <eventHandlerList>
+                    
+                  <packageName/>
+                  
+                  <eventHandlerList>
 </eventHandlerList>
-              
-            </Script>
-            <Script isActive="yes" isFolder="no">
-                
-              <name>Item_Events</name>
-              <script>function sym.ui.gmcpcharitemslist()
+                  
+                </Script>
+                <Script isActive="yes" isFolder="no">
+                    
+                  <name>Item_Events</name>
+                  <script>function sym.ui.gmcpcharitemslist()
     local list = gmcp.Char.Items.List
     if list.location == 'room' then
       sym.ui.roomitems = list.items
@@ -160,17 +855,17 @@
   sym.registerevent('items list', 'gmcp.Char.Items.List', 'sym.ui.gmcpcharitemslist')
   sym.registerevent('items add', 'gmcp.Char.Items.Add', 'sym.ui.gmcpcharitemsadd')
   sym.registerevent('items remove', 'gmcp.Char.Items.Remove', 'sym.ui.gmcpcharitemsremove')</script>
-                
-              <packageName/>
-              
-              <eventHandlerList>
+                    
+                  <packageName/>
+                  
+                  <eventHandlerList>
 </eventHandlerList>
-              
-            </Script>
-            <Script isActive="yes" isFolder="no">
-                
-              <name>Player_Events</name>
-              <script>function sym.ui.gmcproomplayers()
+                  
+                </Script>
+                <Script isActive="yes" isFolder="no">
+                    
+                  <name>Player_Events</name>
+                  <script>function sym.ui.gmcproomplayers()
     local list = gmcp.Room.Players
     sym.ui.roomplayers = list
     sym.ui.update_room()
@@ -196,17 +891,17 @@
   sym.registerevent('room players', 'gmcp.Room.Players', 'sym.ui.gmcproomplayers')
   sym.registerevent('room addplayer', 'gmcp.Room.AddPlayer', 'sym.ui.gmcproomaddplayer')
   sym.registerevent('room removeplayer', 'gmcp.Room.RemovePlayer', 'sym.ui.gmcproomremoveplayer')</script>
-                
-              <packageName/>
-              
-              <eventHandlerList>
+                    
+                  <packageName/>
+                  
+                  <eventHandlerList>
 </eventHandlerList>
-              
-            </Script>
-            <Script isActive="yes" isFolder="no">
-                
-              <name>Target_Events</name>
-              <script>function sym.ui.gmcproominfo()
+                  
+                </Script>
+                <Script isActive="yes" isFolder="no">
+                    
+                  <name>Target_Events</name>
+                  <script>function sym.ui.gmcproominfo()
     if oldnum ~= gmcp.Room.Info.num then
       sym.targetindex = 0
       oldnum = gmcp.Room.Info.num
@@ -224,17 +919,17 @@
   
   sym.registerevent('target info', 'gmcp.Room.Info', 'sym.ui.gmcproominfo')
   sym.registerevent('target set', 'gmcp.IRE.Target.Set', 'sym.ui.gmcpiretargetset')</script>
-                
-              <packageName/>
-              
-              <eventHandlerList>
+                    
+                  <packageName/>
+                  
+                  <eventHandlerList>
 </eventHandlerList>
-              
-            </Script>
-            <Script isActive="yes" isFolder="no">
-                
-              <name>Rotate_Target</name>
-              <script>function sym.ui.rotateroomtarget()
+                  
+                </Script>
+                <Script isActive="yes" isFolder="no">
+                    
+                  <name>Rotate_Target</name>
+                  <script>function sym.ui.rotateroomtarget()
     local ignore = sym.hunter.ignore
   
     if sym.targetindex == #sym.ui.roommobs then
@@ -253,19 +948,31 @@
   
     cecho("&lt;red&gt;There's nothing here, mate.\n")
   end</script>
-                
-              <packageName/>
-              
-              <eventHandlerList>
+                    
+                  <packageName/>
+                  
+                  <eventHandlerList>
 </eventHandlerList>
-              
-            </Script>
-            
-          </ScriptGroup>
-          <Script isActive="yes" isFolder="no">
-              
-            <name>Config</name>
-            <script>sym.ui.info.config = sym.ui.info.config or {}
+                  
+                </Script>
+                
+              </ScriptGroup>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>A_Thing</name>
+                <script>sym.ui.info = sym.ui.info or {}
+sym.ui.info.use = true</script>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
+</eventHandlerList>
+                
+              </Script>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>Config</name>
+                <script>sym.ui.info.config = sym.ui.info.config or {}
 
 sym.ui.info.config.types = { 'Room', 'Tasks' }
 
@@ -290,17 +997,17 @@ sym.ui.info.config.activetabtext = 'orange'
 sym.ui.info.config.inactivetabtext = 'white'
 
 sym.ui.info.currenttab = sym.ui.info.currenttab or sym.ui.info.config.types[1]</script>
-              
-            <packageName/>
-            
-            <eventHandlerList>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
 </eventHandlerList>
-            
-          </Script>
-          <Script isActive="yes" isFolder="no">
-              
-            <name>Creation</name>
-            <script>local activecss = CSSMan.new([[
+                
+              </Script>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>Creation</name>
+                <script>local activecss = CSSMan.new([[
   border-radius: 3px;
   border-style: solid;
   border-width: 1px;
@@ -378,17 +1085,17 @@ function sym.ui.info:create()
 
   sym.ui.info.switch(sym.ui.info.config.types[1])
 end</script>
-              
-            <packageName/>
-            
-            <eventHandlerList>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
 </eventHandlerList>
-            
-          </Script>
-          <Script isActive="yes" isFolder="no">
-              
-            <name>Echoes</name>
-            <script>function sym.ui.info:append(tab)
+                
+              </Script>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>Echoes</name>
+                <script>function sym.ui.info:append(tab)
     local r = sym.ui.info.config.windowcolours.r
     local g = sym.ui.info.config.windowcolours.g
     local b = sym.ui.info.config.windowcolours.b
@@ -446,26 +1153,26 @@ end</script>
       echo(string.format('infowin%s', alltab), message)
     end
   end</script>
-              
-            <packageName/>
-            
-            <eventHandlerList>
-</eventHandlerList>
-            
-          </Script>
-          <ScriptGroup isActive="yes" isFolder="yes">
-              
-            <name>Tasks</name>
-            <script/>
-              
-            <packageName/>
-            
-            <eventHandlerList>
-</eventHandlerList>
-            <Script isActive="yes" isFolder="no">
+                  
+                <packageName/>
                 
-              <name>Update</name>
-              <script>function sym.ui.update_tasks()
+                <eventHandlerList>
+</eventHandlerList>
+                
+              </Script>
+              <ScriptGroup isActive="yes" isFolder="yes">
+                  
+                <name>Tasks</name>
+                <script/>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
+</eventHandlerList>
+                <Script isActive="yes" isFolder="no">
+                    
+                  <name>Update</name>
+                  <script>function sym.ui.update_tasks()
     local taskList = sym.ui.tasklist
   
     clearWindow('infowinTasks')
@@ -488,17 +1195,17 @@ end</script>
       if c == sym.ui.info.config.tasklimit then break end
     end
   end</script>
-                
-              <packageName/>
-              
-              <eventHandlerList>
+                    
+                  <packageName/>
+                  
+                  <eventHandlerList>
 </eventHandlerList>
-              
-            </Script>
-            <Script isActive="yes" isFolder="no">
-                
-              <name>Events</name>
-              <script>function sym.ui.gmcpiretaskslist()
+                  
+                </Script>
+                <Script isActive="yes" isFolder="no">
+                    
+                  <name>Events</name>
+                  <script>function sym.ui.gmcpiretaskslist()
     sym.ui.tasklist = gmcp.IRE.Tasks.List
     sym.ui.update_tasks()
   end
@@ -517,30 +1224,42 @@ end</script>
   sym.registerevent('task list', 'gmcp.IRE.Tasks.List', 'sym.ui.gmcpiretaskslist')
   sym.registerevent('task update', 'gmcp.IRE.Tasks.Update', 'sym.ui.gmcpiretasksupdate')
   sym.registerevent('task completed', 'gmcp.IRE.Tasks.Completed')</script>
+                    
+                  <packageName/>
+                  
+                  <eventHandlerList>
+</eventHandlerList>
+                  
+                </Script>
+                
+              </ScriptGroup>
+              
+            </ScriptGroup>
+            <ScriptGroup isActive="yes" isFolder="yes">
+                
+              <name>Mappers</name>
+              <script/>
                 
               <packageName/>
               
               <eventHandlerList>
 </eventHandlerList>
-              
-            </Script>
-            
-          </ScriptGroup>
-          
-        </ScriptGroup>
-        <ScriptGroup isActive="yes" isFolder="yes">
-            
-          <name>Mappers</name>
-          <script/>
-            
-          <packageName/>
-          
-          <eventHandlerList>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>A_Thing</name>
+                <script>sym.ui.mapper = sym.ui.mapper or {}
+sym.ui.mapper.use = true</script>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
 </eventHandlerList>
-          <Script isActive="yes" isFolder="no">
-              
-            <name>Config</name>
-            <script>sym.ui.mapper.config = sym.ui.mapper.config or {}
+                
+              </Script>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>Config</name>
+                <script>sym.ui.mapper.config = sym.ui.mapper.config or {}
 
 sym.ui.mapper.config.maps = { 'Mudlet', 'Ground', 'Space', 'Hacking' }
 
@@ -563,17 +1282,17 @@ sym.ui.mapper.config.activetabtext = 'orange'
 sym.ui.mapper.config.inactivetabtext = 'white'
 
 sym.ui.mapper.currenttab = sym.ui.mapper.currenttab or sym.ui.mapper.config.maps[1]</script>
-              
-            <packageName/>
-            
-            <eventHandlerList>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
 </eventHandlerList>
-            
-          </Script>
-          <Script isActive="yes" isFolder="no">
-              
-            <name>Creation</name>
-            <script>local activecss = CSSMan.new([[
+                
+              </Script>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>Creation</name>
+                <script>local activecss = CSSMan.new([[
   border-radius: 3px;
   border-style: solid;
   border-width: 1px;
@@ -662,17 +1381,17 @@ function sym.ui.mapper:create()
 
   sym.ui.mapper.switch(sym.ui.mapper.config.maps[1])
 end</script>
-              
-            <packageName/>
-            
-            <eventHandlerList>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
 </eventHandlerList>
-            
-          </Script>
-          <Script isActive="yes" isFolder="no">
-              
-            <name>Echoes</name>
-            <script>function sym.ui.mapper:append(map)
+                
+              </Script>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>Echoes</name>
+                <script>function sym.ui.mapper:append(map)
     local r = sym.ui.mapper.config.windowcolours.r
     local g = sym.ui.mapper.config.windowcolours.g
     local b = sym.ui.mapper.config.windowcolours.b
@@ -701,40 +1420,40 @@ end</script>
       decho(string.format('mapwin%s', tab), message)
     end
   end</script>
-              
-            <packageName/>
-            
-            <eventHandlerList>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
 </eventHandlerList>
-            
-          </Script>
-          
-        </ScriptGroup>
-        <ScriptGroup isActive="yes" isFolder="yes">
-            
-          <name>Modules</name>
-          <script/>
-            
-          <packageName/>
-          
-          <eventHandlerList>
-</eventHandlerList>
-          <Script isActive="yes" isFolder="no">
+                
+              </Script>
               
-            <name>List-Status</name>
-            <script>sym.ui.modulelist = {'PVP', 'Hunting', 'Raiding', 'Mining', 'AFK'}
+            </ScriptGroup>
+            <ScriptGroup isActive="yes" isFolder="yes">
+                
+              <name>Modules</name>
+              <script/>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>List-Status</name>
+                <script>sym.ui.modulelist = {'PVP', 'Hunting', 'Raiding', 'Mining', 'AFK'}
 sym.ui.modulestatus = sym.ui.modulestatus or {}</script>
-              
-            <packageName/>
-            
-            <eventHandlerList>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
 </eventHandlerList>
-            
-          </Script>
-          <Script isActive="yes" isFolder="no">
-              
-            <name>Create_Modules</name>
-            <script>function sym.ui.create_modules()
+                
+              </Script>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>Create_Modules</name>
+                <script>function sym.ui.create_modules()
     sym.ui.header = Geyser.HBox:new({ name = 'sym.ui.header', x = 0, y = 0, width = '100%', height = '100%', }, sym.ui.top)
   
     local activecss = CSSMan.new([[
@@ -780,19 +1499,19 @@ sym.ui.modulestatus = sym.ui.modulestatus or {}</script>
       return sym.ui.modulestatus[module]
     end
   end</script>
-              
-            <packageName/>
-            
-            <eventHandlerList>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
 </eventHandlerList>
-            
-          </Script>
-          
-        </ScriptGroup>
-        <Script isActive="yes" isFolder="no">
-            
-          <name>Initialize</name>
-          <script>function sym.ui.loadthisbitch(event, package)
+                
+              </Script>
+              
+            </ScriptGroup>
+            <Script isActive="yes" isFolder="no">
+                
+              <name>Initialize</name>
+              <script>function sym.ui.loadthisbitch(event, package)
     if event == 'sysInstall' then
       return
     end
@@ -836,26 +1555,26 @@ sym.ui.modulestatus = sym.ui.modulestatus or {}</script>
   
   sym.registerevent('ui installed', 'sysInstall', 'sym.ui.loadthisbitch', 'sysLuaInstallModule')
   sym.registerevent('ui loaded', 'sysLoadEvent', 'sym.ui.loadthisbitch', 'sysLuaInstallModule')</script>
-            
-          <packageName/>
-          
-          <eventHandlerList>
-</eventHandlerList>
-          
-        </Script>
-        <ScriptGroup isActive="yes" isFolder="yes">
-            
-          <name>Setup</name>
-          <script/>
-            
-          <packageName/>
-          
-          <eventHandlerList>
-</eventHandlerList>
-          <Script isActive="yes" isFolder="no">
+                
+              <packageName/>
               
-            <name>Stylesheet</name>
-            <script>function sym.ui.update_stylesheet()
+              <eventHandlerList>
+</eventHandlerList>
+              
+            </Script>
+            <ScriptGroup isActive="yes" isFolder="yes">
+                
+              <name>Setup</name>
+              <script/>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>Stylesheet</name>
+                <script>function sym.ui.update_stylesheet()
     local background_color = 'rgba(0, 20, 20, 100)'
     local background_color_lighter = 'rgba(0, 40, 40, 100)'
     local background_color_hover = 'rgba(0, 60, 60, 100)'
@@ -1198,17 +1917,17 @@ sym.ui.modulestatus = sym.ui.modulestatus or {}</script>
       }
     ]])
   end</script>
-              
-            <packageName/>
-            
-            <eventHandlerList>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
 </eventHandlerList>
-            
-          </Script>
-          <Script isActive="yes" isFolder="no">
-              
-            <name>Set_Borders</name>
-            <script>function sym.ui.set_borders()
+                
+              </Script>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>Set_Borders</name>
+                <script>function sym.ui.set_borders()
     local w, h = getMainWindowSize()
   
     sym.ui.border_left = w / 4
@@ -1221,17 +1940,17 @@ sym.ui.modulestatus = sym.ui.modulestatus or {}</script>
     setBorderBottom(sym.ui.border_bottom)
     setBorderRight(sym.ui.border_right)
   end</script>
-              
-            <packageName/>
-            
-            <eventHandlerList>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
 </eventHandlerList>
-            
-          </Script>
-          <Script isActive="yes" isFolder="no">
-              
-            <name>Create_Background</name>
-            <script>function sym.ui.create_background()
+                
+              </Script>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>Create_Background</name>
+                <script>function sym.ui.create_background()
     local backgroundcss = CSSMan.new([[ background-color: rgb(0,20,20); ]])
     sym.ui.adj = sym.ui.adj or {} 
     sym.ui.adj.top = Adjustable.Container:new({name = 'Module', x = '25%', y = 0, width = '50%', height = '5%', }) 
@@ -1251,17 +1970,17 @@ sym.ui.modulestatus = sym.ui.modulestatus or {}</script>
     sym.ui.bottom = Geyser.Label:new({ name = 'sym.ui.bottom', x = 0, y = 0, width = '100%', height = '100%', }, sym.ui.adj.bottom)
     sym.ui.bottom:setStyleSheet(backgroundcss:getCSS())
   end</script>
-              
-            <packageName/>
-            
-            <eventHandlerList>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
 </eventHandlerList>
-            
-          </Script>
-          <Script isActive="yes" isFolder="no">
-              
-            <name>Create_Boxes</name>
-            <script>function sym.ui.create_boxes()
+                
+              </Script>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>Create_Boxes</name>
+                <script>function sym.ui.create_boxes()
     local boxcss = CSSMan.new([[
       background-color: rgba(0,0,0,100);
       border-style: solid;
@@ -1290,17 +2009,17 @@ sym.ui.modulestatus = sym.ui.modulestatus or {}</script>
     sym.ui.bottomleft = Geyser.Label:new({ name = 'sym.ui.bottomleft',  x = 0, y = 0, width = '100%', height = '100%',  fontSize = 11 }, sym.ui.adj.bottomleft)
     sym.ui.bottomleft:setStyleSheet(boxcss:getCSS())
   end</script>
-              
-            <packageName/>
-            
-            <eventHandlerList>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
 </eventHandlerList>
-            
-          </Script>
-          <Script isActive="yes" isFolder="no">
-              
-            <name>Create_Gauges</name>
-            <script>function sym.ui.create_gauges(class)
+                
+              </Script>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>Create_Gauges</name>
+                <script>function sym.ui.create_gauges(class)
     sym.ui.footer = Geyser.HBox:new({ name = "sym.ui.footer", x = 0, y = 0, width = "100%", height = "100%", }, sym.ui.bottom)
   
     sym.ui.leftcolumn = Geyser.VBox:new({ name = "sym.ui.leftcolumn", }, sym.ui.footer)
@@ -1352,17 +2071,17 @@ sym.ui.modulestatus = sym.ui.modulestatus or {}</script>
       gauge('rage', sym.ui.rightcolumn, 'red')
     end
   end</script>
-              
-            <packageName/>
-            
-            <eventHandlerList>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
 </eventHandlerList>
-            
-          </Script>
-          <Script isActive="yes" isFolder="no">
-              
-            <name>GMCP_Additions</name>
-            <script>function sym.registergmcpadditions()
+                
+              </Script>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>GMCP_Additions</name>
+                <script>function sym.registergmcpadditions()
     sendGMCP('Core.Supports.Add ["Comm.Channel 1"]')
     sendGMCP('Core.Supports.Add ["IRE.Tasks 1"]')
     sendGMCP('Core.Supports.Add ["IRE.Target 1"]')
@@ -1370,17 +2089,17 @@ sym.ui.modulestatus = sym.ui.modulestatus or {}</script>
   end
   
   sym.registerevent('gmcp additions', 'gmcp.Char.Name', 'sym.registergmcpadditions')</script>
-              
-            <packageName/>
-            
-            <eventHandlerList>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
 </eventHandlerList>
-            
-          </Script>
-          <Script isActive="yes" isFolder="no">
-              
-            <name>Mindsim_Interface</name>
-            <script>local function getSystemColour(amount)
+                
+              </Script>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>Mindsim_Interface</name>
+                <script>local function getSystemColour(amount)
     amount = tonumber(amount)
     if amount &gt; 92.5 then
       return 'MistyRose'
@@ -1463,28 +2182,40 @@ sym.ui.modulestatus = sym.ui.modulestatus or {}</script>
   end
   sym.registerevent('mindsim vitals', 'gmcp.Char.Vitals', 'sym.ui.update_mindsim')
   sym.registerevent('mindsim status', 'gmcp.Char.Status', 'sym.ui.update_mindsim')</script>
-              
-            <packageName/>
-            
-            <eventHandlerList>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
 </eventHandlerList>
-            
-          </Script>
-          
-        </ScriptGroup>
-        <ScriptGroup isActive="yes" isFolder="yes">
-            
-          <name>Tabbed Chat</name>
-          <script/>
-            
-          <packageName/>
-          
-          <eventHandlerList>
-</eventHandlerList>
-          <Script isActive="yes" isFolder="no">
+                
+              </Script>
               
-            <name>Config</name>
-            <script>sym.ui.chat.config = sym.ui.chat.config or {}
+            </ScriptGroup>
+            <ScriptGroup isActive="yes" isFolder="yes">
+                
+              <name>Tabbed Chat</name>
+              <script/>
+                
+              <packageName/>
+              
+              <eventHandlerList>
+</eventHandlerList>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>A_Thing</name>
+                <script>sym.ui.chat = sym.ui.chat or {}
+sym.ui.chat.use = true</script>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
+</eventHandlerList>
+                
+              </Script>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>Config</name>
+                <script>sym.ui.chat.config = sym.ui.chat.config or {}
 
 sym.ui.chat.config.usetimestamp = 'HH:mm:ss'
 
@@ -1523,17 +2254,17 @@ sym.ui.chat.config.activetabtext = 'orange'
 sym.ui.chat.config.inactivetabtext = 'white'
 
 sym.ui.chat.currenttab = sym.ui.chat.currenttab or sym.ui.chat.config.alltab or sym.ui.chat.config.channels[1]</script>
-              
-            <packageName/>
-            
-            <eventHandlerList>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
 </eventHandlerList>
-            
-          </Script>
-          <Script isActive="yes" isFolder="no">
-              
-            <name>Creation</name>
-            <script>local activecss = CSSMan.new([[
+                
+              </Script>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>Creation</name>
+                <script>local activecss = CSSMan.new([[
   border-radius: 3px;
   border-style: solid;
   border-width: 1px;
@@ -1621,211 +2352,226 @@ function sym.ui.chat:create()
     sym.ui.chat:blink()
   end
 end</script>
-              
-            <packageName/>
-            
-            <eventHandlerList>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
 </eventHandlerList>
-            
-          </Script>
-          <Script isActive="yes" isFolder="no">
-              
-            <name>Echoes</name>
-            <script>function sym.ui.chat:append(chat)
-    local r = sym.ui.chat.config.windowcolours.r
-    local g = sym.ui.chat.config.windowcolours.g
-    local b = sym.ui.chat.config.windowcolours.b
-    selectCurrentLine()
-    local ofr, ofg, ofb = getFgColor()
-    local obr, obg, obb = getBgColor()
-    if sym.ui.chat.config.preservebackground then
-      setBgColor(r, g, b)
-    end
-    copy()
-    if sym.ui.chat.config.timestamp then
-      local timestamp = getTime(true, sym.ui.chat.config.timestamp)
-      local tsfg = {}
-      local tsbg = {}
-      local colourLeader = ''
-      if sym.ui.chat.config.timestampcustomcolour then
-        if type(sym.ui.chat.config.timestampfg) == 'string' then
-          tsfg = color_table[sym.ui.chat.config.timestampfg]
-        else
-          tsfg = sym.ui.chat.config.timestampfg
-        end
-        if type(sym.ui.chat.config.timestampbg) == 'string' then
-          tsbg = color_table[sym.ui.chat.config.timestampbg]
-        else
-          tsbg = sym.ui.chat.config.timestampbg
-        end
-        colourLeader = string.format('&lt;%s,%s,%s:%s,%s,%s&gt;', tsfg[1], tsfg[2], tsfg[3], tsbg[1], tsbg[2], tsbg[3])
+                
+              </Script>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>Echoes</name>
+                <script>function sym.ui.chat:append(chat)
+  local r = sym.ui.chat.config.windowcolours.r
+  local g = sym.ui.chat.config.windowcolours.g
+  local b = sym.ui.chat.config.windowcolours.b
+  selectCurrentLine()
+  local ofr, ofg, ofb = getFgColor()
+  local obr, obg, obb = getBgColor()
+  if sym.ui.chat.config.preservebackground then
+    setBgColor(r, g, b)
+  end
+  copy()
+  if sym.ui.chat.config.timestamp then
+    local timestamp = getTime(true, sym.ui.chat.config.timestamp)
+    local tsfg = {}
+    local tsbg = {}
+    local colourLeader = ''
+    if sym.ui.chat.config.timestampcustomcolour then
+      if type(sym.ui.chat.config.timestampfg) == 'string' then
+        tsfg = color_table[sym.ui.chat.config.timestampfg]
       else
-        colourLeader = string.format('&lt;%s,%s,%s:%s,%s,%s&gt;', ofr, ofg, ofb, obr, obg, obb)
+        tsfg = sym.ui.chat.config.timestampfg
       end
-      local fullstamp = string.format('%s%s', colourLeader, timestamp)
-      sym.ui.chat.windows[chat]:decho(fullstamp)
-      sym.ui.chat.windows[chat]:echo(' ')
-      if sym.ui.chat.config.alltab then
-        sym.ui.chat.windows[sym.ui.chat.config.alltab]:decho(fullstamp)
-        sym.ui.chat.windows[sym.ui.chat.config.alltab]:echo(' ')
+      if type(sym.ui.chat.config.timestampbg) == 'string' then
+        tsbg = color_table[sym.ui.chat.config.timestampbg]
+      else
+        tsbg = sym.ui.chat.config.timestampbg
       end
+      colourLeader = string.format('&lt;%s,%s,%s:%s,%s,%s&gt;', tsfg[1], tsfg[2], tsfg[3], tsbg[1], tsbg[2], tsbg[3])
+    else
+      colourLeader = string.format('&lt;%s,%s,%s:%s,%s,%s&gt;', ofr, ofg, ofb, obr, obg, obb)
     end
-    sym.ui.chat.windows[chat]:append()
-    if sym.ui.chat.config.gag then
-      deleteLine()
-      tempLineTrigger(1, 1, [[if isPrompt() then deleteLine() end]])
-    end
+    local fullstamp = string.format('%s%s', colourLeader, timestamp)
+    sym.ui.chat.windows[chat]:decho(fullstamp)
+    sym.ui.chat.windows[chat]:echo(' ')
     if sym.ui.chat.config.alltab then
-      appendBuffer(string.format('chatwin%s', sym.ui.chat.config.alltab))
-    end
-    if sym.ui.chat.config.blink and chat ~= sym.ui.chat.currenttab then
-      if (sym.ui.chat.config.alltab == sym.ui.chat.currenttab) and not sym.ui.chat.config.blinkonall then
-        return
-      else
-        sym.ui.chat.tabstoblink[chat] = true
-      end
+      sym.ui.chat.windows[sym.ui.chat.config.alltab]:decho(fullstamp)
+      sym.ui.chat.windows[sym.ui.chat.config.alltab]:echo(' ')
     end
   end
-  
-  function sym.ui.chat:blink()
-    if sym.ui.chat.blinkID then killTimer(sym.ui.chat.blinkID) end
-    if not sym.ui.chat.config.blink then
-      sym.ui.chat.blinktimerOn = false
+  sym.ui.chat.windows[chat]:append()
+  if sym.ui.chat.config.gag then
+    deleteLine()
+    tempLineTrigger(1, 1, [[if isPrompt() then deleteLine() end]])
+  end
+  if sym.ui.chat.config.alltab then
+    appendBuffer(string.format('chatwin%s', sym.ui.chat.config.alltab))
+  end
+  if sym.ui.chat.config.blink and chat ~= sym.ui.chat.currenttab then
+    if (sym.ui.chat.config.alltab == sym.ui.chat.currenttab) and not sym.ui.chat.config.blinkonall then
+      return
+    else
+      sym.ui.chat.tabstoblink[chat] = true
+    end
+  end
+end
+
+function sym.ui.chat:blink()
+  if sym.ui.chat.blinkID then killTimer(sym.ui.chat.blinkID) end
+  if not sym.ui.chat.config.blink then
+    sym.ui.chat.blinktimerOn = false
+    return
+  end
+  if not sym.ui.chat.container.hidden then
+    for tab, _ in pairs(sym.ui.chat.tabstoblink) do
+      sym.ui.chat.tabs[tab]:flash()
+    end
+  end
+  sym.ui.chat.blinkID = tempTimer(sym.ui.chat.config.blinktime, function() sym.ui.chat:blink() end)
+end
+
+
+function sym.ui.chat:cecho(chat, message)
+  local alltab = sym.ui.chat.config.alltab
+  local blink = sym.ui.chat.config.blink
+  cecho(string.format('chatwin%s', chat), message)
+  if alltab and chat ~= alltab then
+    cecho(string.format('chatwin%s', alltab), message)
+  end
+  if blink and chat ~= sym.ui.chat.currenttab then
+    if (alltab == sym.ui.chat.currenttab) and not sym.ui.chat.config.blinkonall then
+      return
+    else
+      sym.ui.chat.tabstoblink[chat] = true
+    end
+  end
+end
+
+function sym.ui.chat:decho(chat, message)
+  local alltab = sym.ui.chat.config.alltab
+  local blink = sym.ui.chat.config.blink
+  decho(string.format('chatwin%s', chat), message)
+  if alltab and chat ~= alltab then
+    decho(string.format('chatwin%s', alltab), message)
+  end
+  if blink and chat ~= sym.ui.chat.currenttab then
+    if (alltab == sym.ui.chat.currenttab) and not sym.ui.chat.config.blinkonall then
+      return
+    else
+      sym.ui.chat.tabstoblink[chat] = true
+    end
+  end
+end
+
+function sym.ui.chat:hecho(chat, message)
+  local alltab = sym.ui.chat.config.alltab
+  local blink = sym.ui.chat.config.blink
+  hecho(string.format('chatwin%s', chat), message)
+  if alltab and chat ~= alltab then
+    hecho(string.format('chatwin%s', alltab), message)
+  end
+  if blink and chat ~= sym.ui.chat.currenttab then
+    if (alltab == sym.ui.chat.currenttab) and not sym.ui.chat.config.blinkonall then
+      return
+    else
+      sym.ui.chat.tabstoblink[chat] = true
+    end
+  end
+end
+
+function sym.ui.chat:echo(chat, message)
+  local alltab = sym.ui.chat.config.alltab
+  local blink = sym.ui.chat.config.blink
+  echo(string.format('chatwin%s', chat), message)
+  if alltab and chat ~= alltab then
+    echo(string.format('chatwin%s', alltab), message)
+  end
+  if blink and chat ~= sym.ui.chat.currenttab then
+    if (alltab == sym.ui.chat.currenttab) and not sym.ui.chat.config.blinkonall then
+      return
+    else
+      sym.ui.chat.tabstoblink[chat] = true
+    end
+  end
+end</script>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
+</eventHandlerList>
+                
+              </Script>
+              <Script isActive="yes" isFolder="no">
+                  
+                <name>Comms</name>
+                <script>function sym.ui.gmcpcommchanneltext()
+  local talker = gmcp.Comm.Channel.Text.talker
+
+  if sym.ui.chat.config.filterccc and (not gmcp.Comm.Channel.Players or (not table.contains(gmcp.Comm.Channel.Players, talker) and not (talker == gmcp.Char.Name.name))) then return end
+
+  local channels = sym.ui.chat.config.channels
+  local gmcpChannel = gmcp.Comm.Channel.Text.channel:lower()
+  local text = ansi2decho(gmcp.Comm.Channel.Text.text)
+  local raw = text:gsub('&lt;.-&gt;', '')
+  local r = sym.ui.chat.config.windowcolours.r
+  local g = sym.ui.chat.config.windowcolours.g
+  local b = sym.ui.chat.config.windowcolours.b
+
+  if sym.ui.chat.config.preservebackground then
+    text = text:gsub(':&gt;', string.format(':%s,%s,%s&gt;', r, g, b))
+  end
+
+  local to_channel = {
+    ['say'] = 'Local',
+    ['yell'] = 'Local',
+    ['ft'] = 'Faction',
+    ['clt'] = 'Clan',
+    ['dt'] = 'Dynasty',
+    ['ooc'] = 'Local',
+    ['emote'] = 'Local',
+    ['market'] = 'Clan',
+    ['conflict'] = 'Clan'
+  }
+
+  local channel = table.contains(channels, gmcpChannel:title()) and gmcpChannel:title() or to_channel[gmcpChannel]
+
+  if not channel then
+    if gmcpChannel:starts('tell') then
+      channel = 'Local'
+    else
+      cecho('\n&lt;red&gt;Unknown Channel: &lt;yellow&gt;' .. gmcpChannel)
       return
     end
-    if not sym.ui.chat.container.hidden then
-      for tab, _ in pairs(sym.ui.chat.tabstoblink) do
-        sym.ui.chat.tabs[tab]:flash()
-      end
-    end
-    sym.ui.chat.blinkID = tempTimer(sym.ui.chat.config.blinktime, function() sym.ui.chat:blink() end)
   end
-  
-  
-  function sym.ui.chat:cecho(chat, message)
-    local alltab = sym.ui.chat.config.alltab
-    local blink = sym.ui.chat.config.blink
-    cecho(string.format('chatwin%s', chat), message)
-    if alltab and chat ~= alltab then
-      cecho(string.format('chatwin%s', alltab), message)
-    end
-    if blink and chat ~= sym.ui.chat.currenttab then
-      if (alltab == sym.ui.chat.currenttab) and not sym.ui.chat.config.blinkonall then
-        return
-      else
-        sym.ui.chat.tabstoblink[chat] = true
-      end
-    end
+
+  sym.ui.chat:decho(channel, text .. '\n')
+
+  if sym.ui.chat.config.gag then
+    tempExactMatchTrigger(raw, function()
+      deleteLine()
+			tempLineTrigger(1, 1, [[if isPrompt() then deleteLine() end]])
+    end, 1)
   end
-  
-  function sym.ui.chat:decho(chat, message)
-    local alltab = sym.ui.chat.config.alltab
-    local blink = sym.ui.chat.config.blink
-    decho(string.format('chatwin%s', chat), message)
-    if alltab and chat ~= alltab then
-      decho(string.format('chatwin%s', alltab), message)
-    end
-    if blink and chat ~= sym.ui.chat.currenttab then
-      if (alltab == sym.ui.chat.currenttab) and not sym.ui.chat.config.blinkonall then
-        return
-      else
-        sym.ui.chat.tabstoblink[chat] = true
-      end
-    end
-  end
-  
-  function sym.ui.chat:hecho(chat, message)
-    local alltab = sym.ui.chat.config.alltab
-    local blink = sym.ui.chat.config.blink
-    hecho(string.format('chatwin%s', chat), message)
-    if alltab and chat ~= alltab then
-      hecho(string.format('chatwin%s', alltab), message)
-    end
-    if blink and chat ~= sym.ui.chat.currenttab then
-      if (alltab == sym.ui.chat.currenttab) and not sym.ui.chat.config.blinkonall then
-        return
-      else
-        sym.ui.chat.tabstoblink[chat] = true
-      end
-    end
-  end
-  
-  function sym.ui.chat:echo(chat, message)
-    local alltab = sym.ui.chat.config.alltab
-    local blink = sym.ui.chat.config.blink
-    echo(string.format('chatwin%s', chat), message)
-    if alltab and chat ~= alltab then
-      echo(string.format('chatwin%s', alltab), message)
-    end
-    if blink and chat ~= sym.ui.chat.currenttab then
-      if (alltab == sym.ui.chat.currenttab) and not sym.ui.chat.config.blinkonall then
-        return
-      else
-        sym.ui.chat.tabstoblink[chat] = true
-      end
-    end
-  end</script>
-              
-            <packageName/>
-            
-            <eventHandlerList>
+end
+
+sym.registerevent('gmcp comms', 'gmcp.Comm.Channel.Text', 'sym.ui.gmcpcommchanneltext')</script>
+                  
+                <packageName/>
+                
+                <eventHandlerList>
 </eventHandlerList>
+                
+              </Script>
+              
+            </ScriptGroup>
             
-          </Script>
+          </ScriptGroup>
           <Script isActive="yes" isFolder="no">
               
-            <name>Comms</name>
-            <script>function sym.ui.gmcpcommchanneltext()
-    local talker = gmcp.Comm.Channel.Text.talker
-  
-    if sym.ui.chat.config.filterccc and (not gmcp.Comm.Channel.Players or (not table.contains(gmcp.Comm.Channel.Players, talker) and not (talker == gmcp.Char.Name.name))) then return end
-  
-    local channels = sym.ui.chat.config.channels
-    local gmcpChannel = gmcp.Comm.Channel.Text.channel:lower()
-    local text = ansi2decho(gmcp.Comm.Channel.Text.text)
-    local raw = text:gsub('&lt;.-&gt;', '')
-    local r = sym.ui.chat.config.windowcolours.r
-    local g = sym.ui.chat.config.windowcolours.g
-    local b = sym.ui.chat.config.windowcolours.b
-  
-    if sym.ui.chat.config.preservebackground then
-      text = text:gsub(':&gt;', string.format(':%s,%s,%s&gt;', r, g, b))
-    end
-  
-    local to_channel = {
-      ['say'] = 'Local',
-      ['yell'] = 'Local',
-      ['ft'] = 'Faction',
-      ['clt'] = 'Clan',
-      ['dt'] = 'Dynasty',
-      ['ooc'] = 'Local',
-      ['emote'] = 'Local',
-      ['market'] = 'Clan',
-      ['conflict'] = 'Clan'
-    }
-  
-    local channel = table.contains(channels, gmcpChannel:title()) and gmcpChannel:title() or to_channel[gmcpChannel]
-  
-    if not channel then
-      if gmcpChannel:starts('tell') then
-        channel = 'Local'
-      else
-        cecho('\n&lt;red&gt;Unknown Channel: &lt;yellow&gt;' .. gmcpChannel)
-        return
-      end
-    end
-  
-    sym.ui.chat:decho(channel, text .. '\n')
-  
-    if sym.ui.chat.config.gag then
-      tempExactMatchTrigger(raw, function()
-        deleteLine()
-              tempLineTrigger(1, 1, [[if isPrompt() then deleteLine() end]])
-      end, 1)
-    end
-  end
-  
-  sym.registerevent('gmcp comms', 'gmcp.Comm.Channel.Text', 'sym.ui.gmcpcommchanneltext')</script>
+            <name>A_Thing</name>
+            <script>sym.ui = sym.ui or {}</script>
               
             <packageName/>
             
@@ -1835,72 +2581,19 @@ end</script>
           </Script>
           
         </ScriptGroup>
-        
-      </ScriptGroup>
-      <Script isActive="yes" isFolder="no">
-          
-        <name>Namespace</name>
-        <script>sym = sym or {}
-
-sym.events = sym.events or {}
-
-sym.hunter = sym.hunter or {}
-    sym.hunter.class = sym.hunter.class or {}
-    sym.hunter.flags = sym.hunter.flags or {}
-    sym.hunter.priorities = sym.hunter.priorities or {}
-    sym.hunter.runner = sym.hunter.runner or {}
-        sym.hunter.runner.config = sym.hunter.runner.config or {}
-
-sym.ui = sym.ui or {}
-    sym.ui.adj = sym.ui.adj or {}
-
-    sym.ui.chat = sym.ui.chat or {}
-        sym.ui.chat.config = sym.ui.chat.config or {}
-        sym.ui.chat.tabstoblink = sym.ui.chat.tabstoblink or {}
-        sym.ui.chat.tabs = sym.ui.chat.tabs or {}
-        sym.ui.chat.windows = sym.ui.chat.windows or {}
-
-    sym.ui.info = sym.ui.info or {}
-        sym.ui.info.config = sym.ui.info.config or {}
-        sym.ui.info.tabs = sym.ui.info.tabs or {}
-        sym.ui.info.windows = sym.ui.info.windows or {}
-    sym.ui.mapper = sym.ui.mapper or {}
-        sym.ui.mapper.config = sym.ui.mapper.config or {}
-        sym.ui.mapper.tabs = sym.ui.mapper.tabs or {}
-        sym.ui.mapper.windows = sym.ui.mapper.windows or {}
-
-    sym.ui.modulestatus = sym.ui.modulestatus or {}
-
-    sym.ui.roomplayers = sym.ui.roomplayers or {}
-
-    sym.ui.roommobs = sym.ui.roommobs or {}
-
-    sym.ui.roomitems = sym.ui.roomitems or {}
-
-    sym.ui.roomfilters = sym.ui.roomfilters or {}
-
-    sym.ui.tasklist = sym.ui.tasklist or {}
-</script>
-          
-        <packageName/>
-        
-        <eventHandlerList>
-</eventHandlerList>
-        
-      </Script>
-      <ScriptGroup isActive="yes" isFolder="yes">
-          
-        <name>Utilities</name>
-        <script/>
-          
-        <packageName/>
-        
-        <eventHandlerList>
-</eventHandlerList>
-        <Script isActive="yes" isFolder="no">
+        <ScriptGroup isActive="yes" isFolder="yes">
             
-          <name>CSSMAN</name>
-          <script>-- CSSMan by Vadi. Public domain.
+          <name>Utilities</name>
+          <script/>
+            
+          <packageName/>
+          
+          <eventHandlerList>
+</eventHandlerList>
+          <Script isActive="yes" isFolder="no">
+              
+            <name>CSSMAN</name>
+            <script>-- CSSMan by Vadi. Public domain.
 CSSMan = {}
 CSSMan.__index = CSSMan
 
@@ -1946,56 +2639,58 @@ function CSSMan:settable(tbl)
   assert(type(tbl) == "table", "CSSMan:settable: table expected, got " .. type(tbl))
   self.stylesheet = tbl
 end</script>
+              
+            <packageName/>
             
-          <packageName/>
-          
-          <eventHandlerList>
+            <eventHandlerList>
 </eventHandlerList>
-          
-        </Script>
-        <Script isActive="yes" isFolder="no">
             
-          <name>Geyser_Additions</name>
-          <script>function Geyser.MiniConsole:clear()
-    clearWindow(self.name)
+          </Script>
+          <Script isActive="yes" isFolder="no">
+              
+            <name>Geyser_Additions</name>
+            <script>function Geyser.MiniConsole:clear()
+  clearWindow(self.name)
+end
+
+function Geyser.MiniConsole:append()
+  appendBuffer(self.name)
+end</script>
+              
+            <packageName/>
+            
+            <eventHandlerList>
+</eventHandlerList>
+            
+          </Script>
+          <Script isActive="yes" isFolder="no">
+              
+            <name>Table_Additions</name>
+            <script>function table.keys(tbl)
+  local k = {}
+  for key, value in pairs(tbl) do
+    k[#k + 1] = key
   end
-  
-  function Geyser.MiniConsole:append()
-    appendBuffer(self.name)
-  end</script>
+  return k
+end
+
+function round(num, numDecimalPlaces)
+  local mult = 10 ^ (numDecimalPlaces or 0)
+  return math.floor(num * mult + 0.5) / mult
+end</script>
+              
+            <packageName/>
             
-          <packageName/>
-          
-          <eventHandlerList>
+            <eventHandlerList>
 </eventHandlerList>
-          
-        </Script>
-        <Script isActive="yes" isFolder="no">
             
-          <name>Table_Additions</name>
-          <script>function table.keys(tbl)
-    local k = {}
-    for key, value in pairs(tbl) do
-      k[#k + 1] = key
-    end
-    return k
-  end
-  
-  function round(num, numDecimalPlaces)
-    local mult = 10 ^ (numDecimalPlaces or 0)
-    return math.floor(num * mult + 0.5) / mult
-  end</script>
-            
-          <packageName/>
-          
-          <eventHandlerList>
-</eventHandlerList>
-          
-        </Script>
-        <Script isActive="yes" isFolder="no">
-            
-          <name>Register_Events</name>
-          <script>function sym.registerevent(name, event, func)
+          </Script>
+          <Script isActive="yes" isFolder="no">
+              
+            <name>Register_Events</name>
+            <script>sym.events = sym.events or {}
+
+function sym.registerevent(name, event, func)
   if not sym.events[name] then
     sym.events[name] = registerAnonymousEventHandler(event, func)
   end
@@ -2006,17 +2701,17 @@ function sym.killevent(name)
     return killAnonymousEventHandler(sym.events[name])
   end
 end</script>
+              
+            <packageName/>
             
-          <packageName/>
-          
-          <eventHandlerList>
+            <eventHandlerList>
 </eventHandlerList>
-          
-        </Script>
-        <Script isActive="yes" isFolder="no">
             
-          <name>Skill_Checker</name>
-          <script>local ignore = {'Captaincy', 'Hacking', 'Art', 'Fashion', 'Cuisine', 'Jewelry', 'WeaponModding', 'ArmorModding', 'ShipModding', 'Furnishing', 'Mixology'}
+          </Script>
+          <Script isActive="yes" isFolder="no">
+              
+            <name>Skill_Checker</name>
+            <script>local ignore = {'Captaincy', 'Hacking', 'Art', 'Fashion', 'Cuisine', 'Jewelry', 'WeaponModding', 'ArmorModding', 'ShipModding', 'Furnishing', 'Mixology'}
 
 function sym.gmcpcharskillsgroups()
   if not sym.skills then
@@ -2067,17 +2762,17 @@ end
 sym.registerevent('fetch groups', 'gmcp.Char.Skills.Groups', 'sym.gmcpcharskillsgroups')
 sym.registerevent('fetch skills', 'gmcp.Char.Skills.List', 'sym.gmcpcharskillslist')
 sym.registerevent('parse skills', 'gmcp.Char.Skills.Info', 'sym.gmcpcharskillsinfo')</script>
+              
+            <packageName/>
             
-          <packageName/>
-          
-          <eventHandlerList>
+            <eventHandlerList>
 </eventHandlerList>
-          
-        </Script>
-        <Script isActive="yes" isFolder="no">
             
-          <name>Table Persistance</name>
-          <script>function sym.savetable(t)
+          </Script>
+          <Script isActive="yes" isFolder="no">
+              
+            <name>Table Persistance</name>
+            <script>function sym.savetable(t)
     assert(type(t) == 'string', 'sym.savetable: bad argument #1 type (string expected, got '..type(t)..')')
     assert(#t &gt; 0, 'sym.savetable: string cannot be empty')
   
@@ -2096,44 +2791,58 @@ sym.registerevent('parse skills', 'gmcp.Char.Skills.Info', 'sym.gmcpcharskillsin
     local path = getMudletHomeDir() .. sep .. t
     assert(loadstring('if not '..t..' then '..t..' = {}; if lfs.attributes("'..path..'") then table.load("'..path..'", '..t..') end end'))()
   end</script>
+              
+            <packageName/>
             
-          <packageName/>
-          
-          <eventHandlerList>
+            <eventHandlerList>
 </eventHandlerList>
-          
-        </Script>
-        <Script isActive="yes" isFolder="no">
             
-          <name>toboolean</name>
-          <script>function sym.toboolean(which)
+          </Script>
+          <Script isActive="yes" isFolder="no">
+              
+            <name>toboolean</name>
+            <script>function sym.toboolean(which)
     if which == 'true' then return true end
     if which == 'false' then return false end
   
     return nil
   end</script>
+              
+            <packageName/>
             
-          <packageName/>
-          
-          <eventHandlerList>
+            <eventHandlerList>
 </eventHandlerList>
-          
-        </Script>
-        <Script isActive="yes" isFolder="no">
             
-          <name>Echo</name>
-          <script>sym.echo = function(what)
+          </Script>
+          <Script isActive="yes" isFolder="no">
+              
+            <name>Echo</name>
+            <script>sym.echo = function(what)
     decho('&lt;157,60,60&gt;(&lt;55,145,55&gt;Nightstalker&lt;157,60,60&gt;): &lt;62,245,62&gt;'..what..'\n')
   end</script>
+              
+            <packageName/>
             
-          <packageName/>
-          
-          <eventHandlerList>
+            <eventHandlerList>
 </eventHandlerList>
+            
+          </Script>
           
-        </Script>
+        </ScriptGroup>
         
       </ScriptGroup>
+      <Script isActive="yes" isFolder="no">
+          
+        <name>Namespace</name>
+        <script>sym = sym or {}
+</script>
+          
+        <packageName/>
+        
+        <eventHandlerList>
+</eventHandlerList>
+        
+      </Script>
       
     </ScriptGroup>
     
@@ -2205,7 +2914,7 @@ sym.echo('&lt;0,128,128&gt;Party Size: &lt;128,128,0&gt;' .. sym.hunter.runner.c
         <name>Launch_Ship</name>
         <script>OnShip = true
 sendAll("ship launch", "activate all")
-enableTimer("ships")</script>
+enableTimer("Beacon")</script>
           
         <command/>
           
@@ -2220,7 +2929,7 @@ enableTimer("ships")</script>
         <script>OnShip = true
 sendAll("ship launch", 'say activate all')
 expandAlias("shipart")
-enableTimer("ships")</script>
+enableTimer("Beacon")</script>
           
         <command/>
           
@@ -2234,7 +2943,7 @@ enableTimer("ships")</script>
         <name>Dock_Ship</name>
         <script>OnShip = false
 send("ship dock")
-disableTimer("ships")
+disableTimer("Beacon")
 sym.ui.adj.right:hide()
 sym.ui.adj.left:hide()</script>
           
@@ -2242,7 +2951,7 @@ sym.ui.adj.left:hide()</script>
           
         <packageName/>
           
-        <regex>^dock ship$</regex>
+        <regex>^ship dock$</regex>
         
       </Alias>
       
@@ -2286,9 +2995,3661 @@ sym.ui.adj.left:hide()</script>
     
   </AliasPackage>
   <TimerPackage>
-</TimerPackage>
+    <TimerGroup isActive="yes" isFolder="yes" isTempTimer="no" isOffsetTimer="no">
+        
+      <name>Ship</name>
+      <script/>
+        
+      <command/>
+        
+      <packageName/>
+        
+      <time>00:00:00.000</time>
+      <Timer isActive="no" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+          
+        <name>Beacon</name>
+        <script>if OnShip then sendAll("ship details damage", "ship beacon", false) end</script>
+          
+        <command/>
+          
+        <packageName/>
+          
+        <time>00:00:06.000</time>
+        
+      </Timer>
+      
+    </TimerGroup>
+    
+  </TimerPackage>
   <TriggerPackage>
-</TriggerPackage>
+    <TriggerGroup isActive="yes" isFolder="yes" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+        
+      <name>Hunter</name>
+      <script/>
+        
+      <triggerType>0</triggerType>
+        
+      <conditonLineDelta>0</conditonLineDelta>
+        
+      <mStayOpen>0</mStayOpen>
+        
+      <mCommand/>
+        
+      <packageName/>
+        
+      <path/>
+        
+      <mFgColor>#ff0000</mFgColor>
+        
+      <mBgColor>#ffff00</mBgColor>
+        
+      <mSoundFile/>
+        
+      <colorTriggerFgColor>#000000</colorTriggerFgColor>
+        
+      <colorTriggerBgColor>#000000</colorTriggerBgColor>
+      <regexCodeList>
+</regexCodeList>
+      <regexCodePropertyList>
+</regexCodePropertyList>
+      <TriggerGroup isActive="yes" isFolder="yes" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Oh-Engineer</name>
+        <script/>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path/>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+</regexCodeList>
+        <regexCodePropertyList>
+</regexCodePropertyList>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Stimjected</name>
+          <script>sym.hunter.flags.stimjected = true</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Engineer</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>You feel a rush of vitality as your stimjector releases healing nanites into your bloodstream.</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>3</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Stimjector_Cooldown</name>
+          <script>sym.hunter.flags.stimjected = false</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Engineer</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>You can again use a stimjector.</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>3</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Harass</name>
+          <script>sym.hunter.flags.harassed = true</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Engineer</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>An aerodynamic drone buzzes around</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>2</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Harass_Cooldown</name>
+          <script>sym.hunter.flags.harassed = false</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Engineer</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>Your bot can again harass someone.</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>3</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Autoheal_On</name>
+          <script>sym.hunter.flags.autoheal = true</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Engineer</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>You configure your stimjector to attempt to heal you automatically.</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>3</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Autoheal_Off</name>
+          <script>sym.hunter.flags.autoheal = false</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Engineer</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>The stimjector will no longer heal you automatically.</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>3</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Repeat</name>
+          <script>sym.hunter.flags.repeated = true
+sym.hunter.flags.repeating = true</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Engineer</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>^You build an instruction loop into .*'s programming, ordering it to repeatedly attempt to.* against .*\.$</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>1</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Repeat_Cooldown</name>
+          <script>sym.hunter.flags.repeated = false</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Engineer</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>^You can again order a repeated attack\.$</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>1</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Not_Repeating</name>
+          <script>sym.hunter.flags.repeating = false</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Engineer</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>^Your bot ceases its attack, as its target is no longer present\.$</string>
+            
+            <string>^A crane-armed carrybot stops its attack\.$</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        
+      </TriggerGroup>
+      <TriggerGroup isActive="yes" isFolder="yes" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Oh-Fury</name>
+        <script/>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path/>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+</regexCodeList>
+        <regexCodePropertyList>
+</regexCodePropertyList>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Unstoppable</name>
+          <script>sym.hunter.flags.unstoppable = true</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Fury</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>Your rage overwhelms you, you become unstoppable!</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>3</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Unstoppable_Off</name>
+          <script>sym.hunter.flags.unstoppable = false</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Fury</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>You no longer feel unstoppable!</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>3</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Suffused</name>
+          <script>sym.hunter.flags.suffused = true</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Fury</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>The heart of distant stars and the fire at the center of every planet shimmers in your mind,</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>2</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Suffuse_Cooldown</name>
+          <script>sym.hunter.flags.suffused = false</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Fury</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>It is safe to suffuse yourself with kith energy again.</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>3</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Resistant</name>
+          <script>sym.hunter.flags.resistant = true</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Fury</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>You focus your rage to become more resistant to damage.</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>3</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name> Resistant_Off</name>
+          <script/>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Fury</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>You are less resistant.</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>3</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        
+      </TriggerGroup>
+      <TriggerGroup isActive="yes" isFolder="yes" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Oh-Nanoseer</name>
+        <script/>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path/>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+</regexCodeList>
+        <regexCodePropertyList>
+</regexCodePropertyList>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Multistrike</name>
+          <script>sym.hunter.flags.multistrike = true</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Nanoseer</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>You focus intently to direct a portion of your swarm towards</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>2</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Nanites_Return</name>
+          <script>sym.hunter.flags.multistrike = false
+
+selectCurrentLine()
+setFgColor(0,170,255)
+resetFormat()
+deselect()</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Nanoseer</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>The group of nanites returns back to you.</string>
+            
+            <string>The nanites disperse, no longer striking at</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>3</integer>
+            
+            <integer>2</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Frozen</name>
+          <script>sym.hunter.flags.frozen = true</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Nanoseer</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>You brush your fingertips across</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>2</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Frozen_Cured</name>
+          <script>sym.hunter.flags.frozen = false</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Nanoseer</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>^(.+) has cured the effects of Frozen\.$</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>1</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Frenzy</name>
+          <script>sym.hunter.flags.frenzy = true</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Nanoseer</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>A dark wave of madness rolls through your thoughts, and an impossibly vast mind seems to descend over your own, the Conquerer arriving to drive you into a dangerous frenzy.</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>3</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Frenzy_Off</name>
+          <script>sym.hunter.flags.frenzy = false</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Nanoseer</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>You break out of your frenzy.</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>3</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Embrace</name>
+          <script>sym.hunter.flags.embraced = true</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Nanoseer</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>You: Voidism Embrace.</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>3</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Embrace_Cooldown</name>
+          <script>sym.hunter.flags.embraced = false</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Nanoseer</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>You can once again embrace the surrounding energies.</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>3</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        
+      </TriggerGroup>
+      <TriggerGroup isActive="yes" isFolder="yes" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Oh-Scoundrel</name>
+        <script/>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path/>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+</regexCodeList>
+        <regexCodePropertyList>
+</regexCodePropertyList>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Ambush</name>
+          <script>sym.hunter.flags.ambushed = true</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Scoundrel</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>Without warning, you snatch</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>2</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Ambush_Cooldown</name>
+          <script>sym.hunter.flags.ambushed = false</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Scoundrel</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>You are again ready to ambush.</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>3</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Dualshot</name>
+          <script>sym.hunter.flags.dualshot = true</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Scoundrel</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>Placing your hand on the hammer of</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>2</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Dualshot_Cooldown</name>
+          <script>sym.hunter.flags.dualshot = false</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Scoundrel</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>You are again ready to dualshoot.</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>3</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Stim</name>
+          <script>sym.hunter.flags.stimmed = true</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Scoundrel</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>You jam a stim into your vein and healing nanites surge through your body.</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>3</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Stim_Cooldown</name>
+          <script>sym.hunter.flags.stimmed = false</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh-Scoundrel</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>You can again use a stim.</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>3</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        
+      </TriggerGroup>
+      <TriggerGroup isActive="yes" isFolder="yes" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Oh_BEAST</name>
+        <script/>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path/>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+</regexCodeList>
+        <regexCodePropertyList>
+</regexCodePropertyList>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Backhand</name>
+          <script>sym.hunter.flags.backhand = true</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh_BEAST</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>You overdrive your suit's movement circuits</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>2</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Support</name>
+          <script>sym.hunter.flags.support = true</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh_BEAST</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>You activate your suit's emergency life support system</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>2</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Support_Cooldown</name>
+          <script>sym.hunter.flags.support = false</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh_BEAST</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>Your HUD indicates that you may use your life support system once again.</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>2</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Contingency</name>
+          <script>sym.hunter.flags.contingency = true</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh_BEAST</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>You activate the contingency module in</string>
+            
+            <string>You are already prepared to fire the jumpjets when in</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>2</integer>
+            
+            <integer>2</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Contingency_Fired</name>
+          <script>sym.hunter.flags.contingency = false</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Oh_BEAST</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>You trigger your B</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>2</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        
+      </TriggerGroup>
+      <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Hunting_Balance</name>
+        <script>sym.hunter.class[gmcp.Char.Status.class](sym.target)</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Hunter</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>You have recovered your balance.</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>3</integer>
+        </regexCodePropertyList>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Reset_Target_Party</name>
+        <script>sym.hunter = sym.hunter or {}
+sym.hunter.flags = sym.hunter.flags or {}
+sym.hunter.runner = sym.hunter.runner or {}
+
+sym.loadtable('hunter.ignore')
+sym.loadtable('hunter.exceptions')</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Hunter</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>^(.+) has been slain by (.+)\.$</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>1</integer>
+        </regexCodePropertyList>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Reset_Target</name>
+        <script>sym.hunter.reset[gmcp.Char.Status.class]()
+checkSystems()</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Hunter</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>You have slain (.+)\.$</string>
+          
+          <string>You have defeated (.+)\.$</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>1</integer>
+          
+          <integer>1</integer>
+        </regexCodePropertyList>
+        
+      </Trigger>
+      <TriggerGroup isActive="yes" isFolder="yes" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Windups</name>
+        <script/>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path/>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+</regexCodeList>
+        <regexCodePropertyList>
+</regexCodePropertyList>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Known_Windups</name>
+          <script>windupcheck = true
+send('clearqueue')</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Windups</path>
+            
+          <mFgColor>#00FFFF</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>^Throwing back its grizzled head\, .+ lets out a high-pitched\, wavering howl\.$</string>
+            
+            <string>^With an aggressive snarl\, .+ scampers right for .+\, its needlelike little fingers extended\.$</string>
+            
+            <string>^.+ draws in a deep breath\, its sides beginning to swell alarmingly\.$</string>
+            
+            <string>^.+ hauls its body high and it looms above .+\, moments from a terrible\, crushing crash\.$</string>
+            
+            <string>^.+ shoots its trunk outwards and wraps it around .+\, beginning to tighten it slowly in a crushing grip\.$</string>
+            
+            <string>^A low hum begins to whine from the blaster in .+ hand\, red lights along the barrel growing brighter and brighter\.$</string>
+            
+            <string>^The LED lights glittering in the robotic stems of .+ begin to flash a dull but penetrating red\, and the fleshy blossom pulses urgently\.$</string>
+            
+            <string>^.+ begins to rattle\, steam pouring from its body as the meters and dials on its mechanical body glow bright red\.$</string>
+            
+            <string>^A high-pitched whistle of steam screams from .+\, and it begins to spin in a rapid circle\, firing bolts and scrap metal in every direction\.$</string>
+            
+            <string>^Curling in on herself\, Tsake Shayato begins to shake rapidly\, rocking back and forth in a ball of pent up rage and aggression\.$</string>
+            
+            <string>^Light begins to focus deep within the body of .+\, growing to an almost painful radiance\.$</string>
+            
+            <string>^Staggering backwards\, shoulder joint grinding\, .+ draws back one of its massive\, stony limbs\, preparing to swing it\.$</string>
+            
+            <string>^.+ grows still and concentrates on something while glaring at .+\.$</string>
+            
+            <string>^.+ begins to glow with an ominous red light\, and a faint humming noise begins to sound deep within it\.</string>
+            
+            <string>^Rearing back on its powerful hind legs and muscular\, prehensile tail\, the moss lizard coils itself tight\, ready tospring\.</string>
+            
+            <string>^Spinning swiftly, .+ winds up its tail to whip it towards .+ at astonishing speeds\.</string>
+            
+            <string>^Reeling backwards\, .+ shoulders begin to lurch and heave in an alarming way\, an incipient rumble gurgling up from its bloated midsection\.</string>
+            
+            <string>^Bracing itself against the floor on four spindly legs\, .+ arches its back as it starts to make a convulsive series of loud braying retches\, saliva dripping between its tongues\.</string>
+            
+            <string>^Bunching itself sinuously backwards for a moment\, .+ begins to make rhythmic lurching movements and deep\, glottal gagging noises\, weirdly not unlike a cat that is about to vomit\.</string>
+            
+            <string>^A disturbingly enraged\, high pitched whine screeches loudly from a horned lapine\, and it begins to thrash at the earth with its powerful back legs\.</string>
+            
+            <string>^Rearing back on its powerful hind legs and muscular\, prehensile tail\, the moss lizard coils itself tight\, ready to spring\.</string>
+            
+            <string>^Aggressive and swift\, .+ lunges towards .+ with a wide-open mouth\, ready to bite down - hard\.</string>
+            
+            <string>^.+ cocks a leg and draws it back\, ready to kick it powerfully at .+\.</string>
+            
+            <string>^.+ scuttles a little ways away and extends its ovipositor\, beginning to expel a fleshy series of softball-sized white eggs\.</string>
+            
+            <string>^.+ paws at the ground and lowers its head, preparing to charge at .+\.</string>
+            
+            <string>^.+ around you\, beginning to tighten and strangle\.</string>
+            
+            <string>^Venom sacs at the base of .+ stinger begin to pulse, signaling a .+ attack\.</string>
+            
+            <string>^A low growl rumbles from .+\, and it wiggles its hindquarters\, about to pounce at .+\.</string>
+            
+            <string>^.+ abruptly goes still\, an ominous buzzing sound beginning to whirr beneath its thick carapace\.</string>
+            
+            <string>^Flying high\, .+ folds its wings and plunges downward\, hurtling directly towards you\.</string>
+            
+            <string>^Opening its pincers wide\, .+ rears back on its four back legs\, preparing to attack .+\.</string>
+            
+            <string>^.+ rolls and rumbles rockily across the ground\, aiming to collide with .+\.</string>
+            
+            <string>^.+ buzzes loudly and then divebombs .+\, stinger-end first\.</string>
+            
+            <string>^Tentacles from the bottom of .+ body drift ominously towards you\.</string>
+            
+            <string>^.+ begins to open\, preparing to close around .+\.</string>
+            
+            <string>^Vibrating a little\, .+ begins to glow brightly\, sparks dancing from its fur\.</string>
+            
+            <string>^.+ a leg and draws it back\, ready to kick it powerfully at .+\.</string>
+            
+            <string>^A strange\, odorless vapor begins to drift from the body of .+\, spreading out across the area\.</string>
+            
+            <string>^Surrounding .+ in the coils of its body\, .+ begins to squeeze with bone-crushing force\.</string>
+            
+            <string>^The rotors on .+ begin to whir faster and faster\, until they are blurry with dangerous speed\.</string>
+            
+            <string>^Threshing through the ground\, .+ directly towards .+\, claws extended\.</string>
+            
+            <string>^Tiny particles within .+ link themselves together to form molecule-thin chains of deadly razors\. Ominously\, thecloud begins to spin\.</string>
+            
+            <string>^.+ paws at the ground and lowers its head\, preparing to charge at .+\.</string>
+            
+            <string>^Moving backwards for a moment\, .+ begins to prepare a syringe that .+ pulls from a fleshy fold of .+ body\.</string>
+            
+            <string>^.+ gathers its many legs beneath it and arcs its dripping stinger overhead\, preparing to attack with vicious speed\.</string>
+            
+            <string>^Lifting its huge body up into the air\, .+ rears back in preparation\, acid dripping from its mandibles\.</string>
+            
+            <string>A volatile anomaly's otherworldly, thrumming hum grows all-consuming and it presses on relentlessly, its center crackling with dark energy.</string>
+            
+            <string>An out-of-control FeTek assembly drone's curved beak begins to bob up and down erratically, the welding attachment beginning to glow even brighter.</string>
+            
+            <string>^.+ hauls its body high and it looms above you\, moments from a terrible\, crushing crash\.$</string>
+            
+            <string>A Vihana void crawler's chitin begins to shake, the plates vibrating against one another at a frequency that causes your head to ache as the vibrations sink into your core.</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="yes" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Known_Windups_2</name>
+          <script>windupcheck = true
+send('clearqueue')</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Hunter/Windups</path>
+            
+          <mFgColor>#00FFFF</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>^.+ writhes through the air and coils its body around you, beginning to tighten and strangle\.$</string>
+            
+            <string>^Rearing back, every one of .+ limbs coils backwards on itself into a tight spiral, oozing with glowing green fluid that begins to drip\.$</string>
+            
+            <string>^The thrashing root of .+ seems to stretch out into a weird pink rope, coiling its sinuous girth firmly around .+ nearest limb\.$</string>
+            
+            <string>^.+ shudders violently, its amber eyes brightening with an electrical surge\.</string>
+            
+            <string>^A bubble of light begins to form at the tip of a rogue mining drone's laser\.$</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+            
+            <integer>1</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        
+      </TriggerGroup>
+      
+    </TriggerGroup>
+    <TriggerGroup isActive="yes" isFolder="yes" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+        
+      <name>Interface</name>
+      <script/>
+        
+      <triggerType>0</triggerType>
+        
+      <conditonLineDelta>0</conditonLineDelta>
+        
+      <mStayOpen>0</mStayOpen>
+        
+      <mCommand/>
+        
+      <packageName/>
+        
+      <path/>
+        
+      <mFgColor>#ff0000</mFgColor>
+        
+      <mBgColor>#ffff00</mBgColor>
+        
+      <mSoundFile/>
+        
+      <colorTriggerFgColor>#000000</colorTriggerFgColor>
+        
+      <colorTriggerBgColor>#000000</colorTriggerBgColor>
+      <regexCodeList>
+</regexCodeList>
+      <regexCodePropertyList>
+</regexCodePropertyList>
+      <Trigger isActive="yes" isFolder="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Capture_Map_Ground</name>
+        <script>clearWindow('mapwinGround')
+groundMapCount = 0
+capturing = 'ground'</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>24</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Interface</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>---</string>
+          
+          <string>v\d+</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>2</integer>
+          
+          <integer>1</integer>
+        </regexCodePropertyList>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Line_Ground</name>
+          <script>groundMapCount = groundMapCount + 1
+
+if groundMapCount == 1 then
+  sym.ui.mapper:decho('Ground', '\n &lt;0,128,128&gt;Room: &lt;128,128,0&gt;' .. gmcp.Room.Info.name .. '\n')
+  sym.ui.mapper:decho('Ground', '\n &lt;0,128,128&gt;Area: &lt;128,128,0&gt;' .. gmcp.Room.Info.area .. '\n')
+  sym.ui.mapper:decho('Ground', '\n &lt;0,128,128&gt;Environment: &lt;128,128,0&gt;' .. gmcp.Room.Info.environment .. '\n')
+  sym.ui.mapper:decho('Ground', '\n &lt;0,128,128&gt;Coords: &lt;128,128,0&gt;' .. gmcp.Room.Info.coords .. '\n')
+  sym.ui.mapper:decho('Ground', '\n &lt;0,128,128&gt;Exits: &lt;128,128,0&gt;' .. table.concat(table.keys(gmcp.Room.Info.exits), ' ') .. '\n')
+  sym.ui.mapper:decho('Ground', '\n&lt;0,0,128&gt;' .. string.rep('-', 45))
+end
+
+if groundMapCount &gt; 1 and groundMapCount &lt; 25 then
+  sym.ui.mapper:append('Ground')
+else
+  deleteLine()
+end
+
+if groundMapCount == 25 then
+  sym.ui.mapper:decho('Ground', '&lt;0,0,128&gt;' .. string.rep('-', 45))
+end</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Interface</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>.+</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>1</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Switch_Ground_Map</name>
+        <script>sym.ui.mapper.switch('Ground')</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Interface</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>You disembark from</string>
+          
+          <string>Your vision comes back into focus as your consciousness returns to your physical body.</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>2</integer>
+          
+          <integer>3</integer>
+        </regexCodePropertyList>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Capture_Map_Space</name>
+        <script>clearWindow('mapwinSpace')
+capturing = 'space'</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>50</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Interface</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>Location:</string>
+          
+          <string>^Location: .+ \(\d+, \d+\)$</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>2</integer>
+          
+          <integer>1</integer>
+        </regexCodePropertyList>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Line_Space</name>
+          <script>if line == '----------------------------------------' then
+  setTriggerStayOpen('Capture_Map_Space', 0)
+  deleteLine()
+else
+  sym.ui.mapper:append('Space')
+  sym.ui.mapper.switch('Space')
+end</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Interface</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>.+</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>1</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Switch_Space_Map</name>
+        <script>sym.ui.mapper.switch('Space')</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Interface</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>You embark the ship.</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>3</integer>
+        </regexCodePropertyList>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Capture_Starchart</name>
+        <script>local fontsize = sym.ui.mapper.config.fontsize - 2
+
+local width, height = calcFontSize(fontsize)
+width = width * 81
+height = height * 33
+-- creating the starchart container
+sym.ui.adj.left:show()
+schartMini = schartMini or Geyser.MiniConsole:new({name = "starchart",  x=0, y=0,  autoWrap = true,  color = "black", fontSize = fontsize,  width="100%", height="100%",}, sym.ui.adj.left)
+clearWindow('starchart')
+showWindow('starchart')
+
+
+function sym.ui.hidestarchart()
+sym.ui.adj.left:hide()
+end
+</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>32</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Interface</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>Map of the Starmourn Sector:</string>
+          
+          <string>return sym.ui.mapper.config.starchart</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>3</integer>
+          
+          <integer>4</integer>
+        </regexCodePropertyList>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Line_Starchart</name>
+          <script>selectCurrentLine()
+copy()
+appendBuffer('starchart')
+deleteLine()</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Interface</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>.+</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>1</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>End_Starchart</name>
+          <script>setTriggerStayOpen('Capture_Starchart', 0)</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Interface</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>You are in</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>2</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Check_Starchart</name>
+        <script>send('starchart', false)</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Interface</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>^You have entered the .+ subsec\.$</string>
+          
+          <string>^You are now leaving the .+ subsec\.$</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>1</integer>
+          
+          <integer>1</integer>
+        </regexCodePropertyList>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>In_Space</name>
+        <script/>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>35</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Interface</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>return capturing == 'space'</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>4</integer>
+        </regexCodePropertyList>
+        <Trigger isActive="yes" isFolder="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Space_Prompt</name>
+          <script>local speed, hull, shield, cap = multimatches[2][2], multimatches[2][3], multimatches[2][4], multimatches[2][5]
+local vitals = gmcp.Char.Vitals
+local shields_perc = round(gmcp.Char.Vitals.ship_shield / gmcp.Char.Vitals.ship_shield_max * 100)
+local hull_perc = round(gmcp.Char.Vitals.ship_hull / gmcp.Char.Vitals.ship_hull_max * 100)
+
+local function getSystemColour(amount)
+    amount = tonumber(amount)
+    if amount &gt;= 92.5 then
+        return '&lt;255,255,255:0,0,0&gt;'
+    elseif amount &gt;= 70 then
+        return '&lt;255,255,0:0,0,0&gt;'
+    elseif amount &gt;= 30 then
+        return '&lt;255,150,20:0,0,0&gt;'
+    else
+        return '&lt;200,0,0:0,0,0&gt;'
+    end
+end
+
+deleteLine()
+moveCursorEnd('mapwinSpace')
+selectCurrentLine('mapwinSpace')
+replace('mapwinSpace', '')
+sym.ui.mapper:decho('Space', string.format('&lt;192,192,192:0,0,0&gt;Spd:%3s&lt;250,250,250:0,0,0&gt; &lt;230,180,20:0,0,0&gt;Hull:' .. getSystemColour(hull_perc) .. '%3s&lt;250,250,250:0,0,0&gt; &lt;60,160,255:0,0,0&gt;Shld:' .. getSystemColour(shields_perc) .. '%3s&lt;250,250,250:0,0,0&gt;&lt;215,60,170:0,0,0&gt; Cap:&lt;192,192,192:0,0,0&gt;%3s%%', vitals.ship_speed, vitals.ship_hull, vitals.ship_shield, cap))</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Interface</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string/>
+            
+            <string>Speed: \S+ \((\d+)%\) \| Hull: (\d+)% \| Shield: (\d+)% \| Cap: (\d+)%</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>7</integer>
+            
+            <integer>1</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Settings</name>
+        <script>tempTimer(
+    3,
+    function()
+      sendAll(
+        'config showbalance on',
+        'config combatmessages full',
+        'config mxp on',
+        'config voting on',
+        'config usequeueing on',
+        'config mapshow on',
+        'map radius 5',
+        'config wrapwidth 0'
+      )
+    end
+  )</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Interface</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>Password correct. Welcome to Starmourn.</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>0</integer>
+        </regexCodePropertyList>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Capture_Map_Hacking</name>
+        <script>if hackclear then
+
+    clearUserWindow("mapwinHacking")
+    sym.ui.mapper.switch('Hacking')
+
+    hackclear = false
+
+end
+
+selectCurrentLine()
+copy()
+appendBuffer("mapwinHacking")
+deleteLine()</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>70</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Interface</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>+</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>2</integer>
+        </regexCodePropertyList>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Stop_Update</name>
+          <script>setTriggerStayOpen("Capture_Map_Hacking", 0)</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Interface</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>Directory list</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>0</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Capture_Map_Hacking_2</name>
+        <script>hackclear = true
+setTriggerStayOpen("capture map (hacking)", 0)</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>2</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Interface</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>Routes/</string>
+          
+          <string>north</string>
+          
+          <string>east</string>
+          
+          <string>south</string>
+          
+          <string>west</string>
+          
+          <string>ICE/</string>
+          
+          <string>@glitch</string>
+          
+          <string>@polymorphic_antivirus</string>
+          
+          <string>@antivirus</string>
+          
+          <string>@honeypot</string>
+          
+          <string>Devices/</string>
+          
+          <string>@processor_array</string>
+          
+          <string>@decoy</string>
+          
+          <string>Processes/</string>
+          
+          <string>@firewall</string>
+          
+          <string>@mobile</string>
+          
+          <string>@self</string>
+          
+          <string>@scanner</string>
+          
+          <string>self-replicating_antivirus.Replicate()</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>2</integer>
+          
+          <integer>3</integer>
+          
+          <integer>3</integer>
+          
+          <integer>3</integer>
+          
+          <integer>3</integer>
+          
+          <integer>2</integer>
+          
+          <integer>0</integer>
+          
+          <integer>0</integer>
+          
+          <integer>0</integer>
+          
+          <integer>0</integer>
+          
+          <integer>2</integer>
+          
+          <integer>0</integer>
+          
+          <integer>0</integer>
+          
+          <integer>2</integer>
+          
+          <integer>0</integer>
+          
+          <integer>0</integer>
+          
+          <integer>0</integer>
+          
+          <integer>0</integer>
+          
+          <integer>0</integer>
+        </regexCodePropertyList>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Stop_Update_2</name>
+          <script>setTriggerStayOpen("Capture_Map_Hacking_2", 0)</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Interface</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string/>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>7</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Capture_Beacon</name>
+        <script>local fontsize = sym.ui.mapper.config.fontsize - 2
+
+local width, height = calcFontSize(fontsize)
+width = width * 70
+height = height * 20
+sym.ui.adj.right:show()
+beaconMini = beaconMini or Geyser.MiniConsole:new({name = "beacon",  x=0, y=0,  autoWrap = true,  color = "black", fontSize = fontsize,  width="100%", height="100%",}, sym.ui.adj.right)
+clearWindow('beacon')
+showWindow('beacon')
+
+
+function sym.ui.hidebeacon()
+sym.ui.adj.right:hide()
+end</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>300</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Interface</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>------------------------------&lt; Entities Nearby &gt;------------------------------</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>3</integer>
+        </regexCodePropertyList>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="yes" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>Line_Beacon</name>
+          <script>if line == "Balance used: 2.00s." then
+    deleteLine()
+  else
+    selectCurrentLine()
+    copy()
+    appendBuffer('beacon')
+    deleteLine()
+end</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Interface</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string>.+</string>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>1</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+            
+          <name>End_Beacon</name>
+          <script>deleteFull()
+setTriggerStayOpen('Capture_Beacon', 0)</script>
+            
+          <triggerType>0</triggerType>
+            
+          <conditonLineDelta>0</conditonLineDelta>
+            
+          <mStayOpen>0</mStayOpen>
+            
+          <mCommand/>
+            
+          <packageName/>
+            
+          <path>Interface</path>
+            
+          <mFgColor>#ff0000</mFgColor>
+            
+          <mBgColor>#ffff00</mBgColor>
+            
+          <mSoundFile/>
+            
+          <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            
+          <colorTriggerBgColor>#000000</colorTriggerBgColor>
+          <regexCodeList>
+            
+            <string/>
+          </regexCodeList>
+          <regexCodePropertyList>
+            
+            <integer>7</integer>
+          </regexCodePropertyList>
+          
+        </Trigger>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Switch_Hack_Map</name>
+        <script>sym.ui.mapper.switch('Hacking')</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Interface</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>You enter the commsphere.</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>3</integer>
+        </regexCodePropertyList>
+        
+      </Trigger>
+      
+    </TriggerGroup>
+    <TriggerGroup isActive="yes" isFolder="yes" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+        
+      <name>Ship</name>
+      <script/>
+        
+      <triggerType>0</triggerType>
+        
+      <conditonLineDelta>0</conditonLineDelta>
+        
+      <mStayOpen>0</mStayOpen>
+        
+      <mCommand/>
+        
+      <packageName/>
+        
+      <path/>
+        
+      <mFgColor>#ff0000</mFgColor>
+        
+      <mBgColor>#ffff00</mBgColor>
+        
+      <mSoundFile/>
+        
+      <colorTriggerFgColor>#000000</colorTriggerFgColor>
+        
+      <colorTriggerBgColor>#000000</colorTriggerBgColor>
+      <regexCodeList>
+</regexCodeList>
+      <regexCodePropertyList>
+</regexCodePropertyList>
+      <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Backfire_Tracking</name>
+        <script>if matches[3] ~= "No" and (tonumber(gmcp.Char.Vitals.ship_shield) &gt; 0) then
+    send("ship restart " .. matches[2])
+  end
+  if matches[2] == "Engine" then
+    engine_bf = matches[3]
+  elseif matches[2] == "Shield" then
+    shield_bf = matches[3]
+  elseif matches[2] == "Capacitor" then
+    capacitor_bf = matches[3]
+  elseif matches[2] == "Sensor" then
+    sensor_bf = matches[3]
+  elseif matches[2] == "Shipsim" then
+    sim_bf = matches[3]
+  else
+  end</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Ship</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>^(\w+) System: .+ Backfiring: (\w+)</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>1</integer>
+        </regexCodePropertyList>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Vitals_Gag</name>
+        <script>deleteLine()</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>14</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Ship</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>^-- .+ \((\w+)\) -- Damage .+-----------------------------$</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>1</integer>
+        </regexCodePropertyList>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Missile_Counter</name>
+        <script>if not sym.hunter.flags.countermeasures and tonumber(matches[2]) &gt; 2.4 then
+    tempTimer(
+      2,
+      function()
+        send('ship countermeasures')
+      end
+    )
+  elseif not sym.hunter.flags.countermeasures and tonumber(matches[2]) &lt;= 2.4 then
+    send('ship countermeasures')
+  else
+  end</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Ship</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>^Missile launch detected from .+, ETA (.+)\.$</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>1</integer>
+        </regexCodePropertyList>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Countermeasures</name>
+        <script>sym.hunter.flags.countermeasures = true</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Ship</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>The ship shoots countermeasures around its hull.</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>3</integer>
+        </regexCodePropertyList>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Countermeasures_Cooldown</name>
+        <script>sym.hunter.flags.countermeasures = false</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Ship</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>The ship is again ready to fire countermeasures.</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>3</integer>
+        </regexCodePropertyList>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Weapon_Autoassign_Module</name>
+        <script>if matches[3] == "Interdictor Beam" then
+    send('ship module alias ' ..matches[2].. ' iterdict')
+  elseif matches[3] == "Laser Beam I" or matches[3] == "Laser Beam II" or matches[3] == "Laser Beam III" then
+    send('ship module alias ' ..matches[2].. ' lasers')
+  elseif matches[3] == "Targeted Missile I" or matches[3] == "Targeted Missile II" or matches[3] == "Targeted Missile III" then
+    send('ship module alias ' ..matches[2].. ' missiles')
+  elseif matches[3] == "Massive Cannon I" or matches[3] == "Massive Cannon II" or matches[3] == "Massive Cannon III" then
+    send('ship module alias ' ..matches[2].. ' mcannons')
+  elseif matches[3] == "Cannon I" or matches[3] == "Cannon II" or matches[3] == "Cannon III" then
+    send('ship module alias ' ..matches[2].. ' cannons')
+  elseif matches[3] == "Slicekit" then
+    send('ship module alias ' ..matches[2].. ' slicer')
+  elseif matches[3] == "Cap Drainer" then
+    send('ship module alias ' ..matches[2].. ' drainer')
+  else
+  end</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Ship</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>^Module #(\d+) - \b(.+)\b\s+(Active|Inactive)$</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>1</integer>
+        </regexCodePropertyList>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Empty_Beacon_Gag</name>
+        <script>deleteLine()</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Ship</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>You send out your beacon, but there is nothing within range.</string>
+          
+          <string>Keying a switch on your navigation console, you do a scan of the surrounding area.</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>3</integer>
+          
+          <integer>3</integer>
+        </regexCodePropertyList>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Reload</name>
+        <script>send("ship weapon reload "..matches[2])</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Ship</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>^.+\#(\d+) has 0 ammunition loaded\.$</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>1</integer>
+        </regexCodePropertyList>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Ship_Balance</name>
+        <script>if OnShip == true then
+    deleteLine()
+  else
+  end</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Ship</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>You have recovered your balance.</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>3</integer>
+        </regexCodePropertyList>
+        
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isColorTrigger="" isColorTriggerFg="" isColorTriggerBg="">
+          
+        <name>Auto_Tether</name>
+        <script>send('ship tether asteroid')</script>
+          
+        <triggerType>0</triggerType>
+          
+        <conditonLineDelta>0</conditonLineDelta>
+          
+        <mStayOpen>0</mStayOpen>
+          
+        <mCommand/>
+          
+        <packageName/>
+          
+        <path>Ship</path>
+          
+        <mFgColor>#ff0000</mFgColor>
+          
+        <mBgColor>#ffff00</mBgColor>
+          
+        <mSoundFile/>
+          
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+          
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          
+          <string>^.+ halts gracefully to avoid collision with asteroid\.$</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          
+          <integer>1</integer>
+        </regexCodePropertyList>
+        
+      </Trigger>
+      
+    </TriggerGroup>
+    
+  </TriggerPackage>
   <KeyPackage>
-</KeyPackage>
+    <KeyGroup isActive="yes" isFolder="yes">
+        
+      <name>Interface</name>
+        
+      <packageName/>
+      <script/>
+        
+      <command/>
+        
+      <keyCode>33554431</keyCode>
+        
+      <keyModifier>0</keyModifier>
+      <Key isActive="yes" isFolder="no">
+          
+        <name>Rotate_Target</name>
+          
+        <packageName/>
+        <script>sym.ui.rotateroomtarget()</script>
+          
+        <command/>
+          
+        <keyCode>47</keyCode>
+          
+        <keyModifier>67108864</keyModifier>
+        
+      </Key>
+      
+    </KeyGroup>
+    <KeyGroup isActive="yes" isFolder="yes">
+        
+      <name>Keypad Movement (Ground and Space)</name>
+        
+      <packageName/>
+      <script/>
+        
+      <command/>
+        
+      <keyCode>33554431</keyCode>
+        
+      <keyModifier>0</keyModifier>
+      <Key isActive="yes" isFolder="no">
+          
+        <name>Down_Thrust100-100</name>
+          
+        <packageName/>
+        <script>if gmcp.Room.Info.environment == 'bridge' then
+    send("ship thrust 100 100")
+else
+    send("d")
+end</script>
+          
+        <command/>
+          
+        <keyCode>43</keyCode>
+          
+        <keyModifier>536870912</keyModifier>
+        
+      </Key>
+      <Key isActive="yes" isFolder="no">
+          
+        <name>East</name>
+          
+        <packageName/>
+        <script>if gmcp.Room.Info.environment == 'bridge' then
+    send("ship turn e")
+elseif gmcp.Room.Info.name == 'In space.' then
+    send('spacewalk e')
+else
+    send("e")
+end</script>
+          
+        <command/>
+          
+        <keyCode>54</keyCode>
+          
+        <keyModifier>536870912</keyModifier>
+        
+      </Key>
+      <Key isActive="yes" isFolder="no">
+          
+        <name>In_Halt_Board</name>
+          
+        <packageName/>
+        <script>if gmcp.Room.Info.environment == 'bridge' then
+    send("ship halt")
+elseif gmcp.Room.Info.name == 'In space.' then
+    send('spacewalk board')
+else
+    send("in")
+end</script>
+          
+        <command/>
+          
+        <keyCode>53</keyCode>
+          
+        <keyModifier>536870912</keyModifier>
+        
+      </Key>
+      <Key isActive="yes" isFolder="no">
+          
+        <name>North</name>
+          
+        <packageName/>
+        <script>if gmcp.Room.Info.environment == 'bridge' then
+    send('ship turn n')
+elseif gmcp.Room.Info.name == 'In space.' then
+    send('spacewalk n')
+else
+    send("n")
+end</script>
+          
+        <command/>
+          
+        <keyCode>56</keyCode>
+          
+        <keyModifier>536870912</keyModifier>
+        
+      </Key>
+      <Key isActive="yes" isFolder="no">
+          
+        <name>Northeast</name>
+          
+        <packageName/>
+        <script>if gmcp.Room.Info.environment == 'bridge' then
+    send("ship turn ne")
+elseif gmcp.Room.Info.name == 'In space.' then
+    send('spacewalk ne')
+else
+    send("ne")
+end</script>
+          
+        <command/>
+          
+        <keyCode>57</keyCode>
+          
+        <keyModifier>536870912</keyModifier>
+        
+      </Key>
+      <Key isActive="yes" isFolder="no">
+          
+        <name>Northwest</name>
+          
+        <packageName/>
+        <script>if gmcp.Room.Info.environment == 'bridge' then
+    send("ship turn nw")
+elseif gmcp.Room.Info.name == 'In space.' then
+    send('spacewalk nw')
+else
+    send("nw")
+end</script>
+          
+        <command/>
+          
+        <keyCode>55</keyCode>
+          
+        <keyModifier>536870912</keyModifier>
+        
+      </Key>
+      <Key isActive="yes" isFolder="no">
+          
+        <name>Out_Fire</name>
+          
+        <packageName/>
+        <script>local target = gmcp.Char.Status.target:match('%w+')
+if gmcp.Room.Info.environment == 'bridge' then
+    --  'ship weapon fire weap5 ' ..target,
+    --  'ship weapon fire weap6 ' ..target,
+    --  'ship weapon fire weap7 ' ..target,
+    --  'ship weapon fire weap8 ' ..target,
+    sendAll('ship target ' .. target, 'ship weapon fire mcannons ' .. target,
+            'ship weapon fire cannons ' .. target,
+            'ship weapon fire lasers ' .. target,
+            'ship weapon fire missiles ' .. target,
+            'ship weapon fire interdict ' .. target)
+else
+    send("out")
+end</script>
+          
+        <command/>
+          
+        <keyCode>48</keyCode>
+          
+        <keyModifier>536870912</keyModifier>
+        
+      </Key>
+      <Key isActive="yes" isFolder="no">
+          
+        <name>Ship_Vitals</name>
+          
+        <packageName/>
+        <script>if gmcp.Room.Info.environment == 'bridge' then
+    sendAll("ship vitals", "ship details damage")
+end</script>
+          
+        <command/>
+          
+        <keyCode>47</keyCode>
+          
+        <keyModifier>536870912</keyModifier>
+        
+      </Key>
+      <Key isActive="yes" isFolder="no">
+          
+        <name>Slow_Thrust</name>
+          
+        <packageName/>
+        <script>if gmcp.Room.Info.environment == 'bridge' then
+    send("ship thrust 80 18")
+end</script>
+          
+        <command/>
+          
+        <keyCode>42</keyCode>
+          
+        <keyModifier>536870912</keyModifier>
+        
+      </Key>
+      <Key isActive="yes" isFolder="no">
+          
+        <name>South</name>
+          
+        <packageName/>
+        <script>if gmcp.Room.Info.environment == 'bridge' then
+    send("ship turn s")
+elseif gmcp.Room.Info.name == 'In space.' then
+    send('spacewalk s')
+else
+    send("s")
+end</script>
+          
+        <command/>
+          
+        <keyCode>50</keyCode>
+          
+        <keyModifier>536870912</keyModifier>
+        
+      </Key>
+      <Key isActive="yes" isFolder="no">
+          
+        <name>Southeast</name>
+          
+        <packageName/>
+        <script>if gmcp.Room.Info.environment == 'bridge' then
+    send("ship turn se")
+elseif gmcp.Room.Info.name == 'In space.' then
+    send('spacewalk se')
+else
+    send("se")
+end</script>
+          
+        <command/>
+          
+        <keyCode>51</keyCode>
+          
+        <keyModifier>536870912</keyModifier>
+        
+      </Key>
+      <Key isActive="yes" isFolder="no">
+          
+        <name>Southwest</name>
+          
+        <packageName/>
+        <script>if gmcp.Room.Info.environment == 'bridge' then
+    send("ship turn sw")
+elseif gmcp.Room.Info.name == 'In space.' then
+    send('spacewalk sw')
+else
+    send("sw")
+end</script>
+          
+        <command/>
+          
+        <keyCode>49</keyCode>
+          
+        <keyModifier>536870912</keyModifier>
+        
+      </Key>
+      <Key isActive="yes" isFolder="no">
+          
+        <name>Up_Thrust100-50</name>
+          
+        <packageName/>
+        <script>if gmcp.Room.Info.environment == 'bridge' then
+    send("ship thrust 100 50")
+else
+    send("up")
+end</script>
+          
+        <command/>
+          
+        <keyCode>45</keyCode>
+          
+        <keyModifier>536870912</keyModifier>
+        
+      </Key>
+      <Key isActive="yes" isFolder="no">
+          
+        <name>West</name>
+          
+        <packageName/>
+        <script>if gmcp.Room.Info.environment == 'bridge' then
+    send("ship turn w")
+elseif gmcp.Room.Info.name == 'In space.' then
+    send('spacewalk w')
+else
+    send("w")
+end</script>
+          
+        <command/>
+          
+        <keyCode>52</keyCode>
+          
+        <keyModifier>536870912</keyModifier>
+        
+      </Key>
+      
+    </KeyGroup>
+    
+  </KeyPackage>
 </MudletPackage>

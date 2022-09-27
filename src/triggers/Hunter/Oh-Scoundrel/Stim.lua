@@ -1,0 +1,1 @@
+sym.hunter.flags.stimmed = true

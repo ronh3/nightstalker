@@ -1,0 +1,26 @@
+[
+    {
+        "name": "A_Thing",
+        "isActive": "yes"
+    },
+    {
+        "name": "BEAST",
+        "isActive": "yes"
+    },
+    {
+        "name": "Engineer",
+        "isActive": "yes"
+    },
+    {
+        "name": "Fury",
+        "isActive": "yes"
+    },
+    {
+        "name": "Nanoseer",
+        "isActive": "yes"
+    },
+    {
+        "name": "Scoundrel",
+        "isActive": "yes"
+    }
+]

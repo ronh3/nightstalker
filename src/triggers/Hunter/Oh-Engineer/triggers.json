@@ -1,0 +1,105 @@
+[
+    {
+        "name": "Stimjected",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You feel a rush of vitality as your stimjector releases healing nanites into your bloodstream.",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Stimjector_Cooldown",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You can again use a stimjector.",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Harass",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "An aerodynamic drone buzzes around",
+                    "type": "startOfLine"
+                }
+            ]
+    },
+    {
+        "name": "Harass_Cooldown",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "Your bot can again harass someone.",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Autoheal_On",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "You configure your stimjector to attempt to heal you automatically.",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Autoheal_Off",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "The stimjector will no longer heal you automatically.",
+                    "type": "exactMatch"
+                }
+            ]
+    },
+    {
+        "name": "Repeat",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "^You build an instruction loop into .*'s programming, ordering it to repeatedly attempt to.* against .*\\.$",
+                    "type": "regex"
+                }
+            ]
+    },
+    {
+        "name": "Repeat_Cooldown",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "^You can again order a repeated attack\\.$",
+                    "type": "regex"
+                }
+            ]
+    },
+    {
+        "name": "Not_Repeating",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "^Your bot ceases its attack, as its target is no longer present\\.$",
+                    "type": "regex"
+                },
+                {
+                    "pattern": "^A crane-armed carrybot stops its attack\\.$",
+                    "type": "regex"
+                }
+            ]
+    }
+]
