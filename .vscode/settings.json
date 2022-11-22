@@ -60,7 +60,10 @@
         "showWindow",
         "setTriggerStayOpen",
         "deleteFull",
-        "multimatches"
+        "multimatches",
+        "moveCursorEnd",
+        "replace",
+        "clearUserWindow"
     ],
     "Lua.diagnostics.disable": [
         "deprecated",
