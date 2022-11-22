@@ -238,5 +238,31 @@
                     "type": "regex"
                 }
             ]
+    },
+    {
+        "name": "Interrupted",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "loses its concentration",
+                    "type": "substring"
+                },
+                {
+                    "pattern": "You have slain",
+                    "type": "startOfLine"
+                }
+            ]
+    },
+    {
+        "name": "Fail",
+        "isActive": "yes",
+        "patterns":
+            [
+                {
+                    "pattern": "(fail)",
+                    "type": "substring"
+                }
+            ]
     }
 ]

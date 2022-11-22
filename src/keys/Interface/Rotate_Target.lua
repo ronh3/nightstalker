@@ -1,1 +1,1 @@
-sym.ui.rotateroomtarget()
+nightstalker.ui.rotateroomtarget()

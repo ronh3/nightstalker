@@ -1,3 +1,3 @@
-local hunting = sym.checkmodule('Hunting')
-sym.hunter.system[hunting and 'stop' or 'start']()
-sym.echo('Autohunting has been '..(hunting and 'disabled' or 'enabled')..'.')
+local hunting = nightstalker.checkmodule('Hunting')
+nightstalker.hunter.system[hunting and 'stop' or 'start']()
+nightstalker.echo('Autohunting has been '..(hunting and 'disabled' or 'enabled')..'.')

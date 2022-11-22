@@ -1,1 +1,1 @@
-sym.hunter.flags.dualshot = true
+nightstalker.hunter.flags.dualshot = true

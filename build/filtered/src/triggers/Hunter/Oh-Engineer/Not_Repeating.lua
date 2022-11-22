@@ -1,1 +1,1 @@
-sym.hunter.flags.repeating = false
+nightstalker.hunter.flags.repeating = false

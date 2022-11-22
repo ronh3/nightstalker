@@ -1,1 +1,1 @@
-sym.hunter.flags.autoheal = false
+nightstalker.hunter.flags.autoheal = false

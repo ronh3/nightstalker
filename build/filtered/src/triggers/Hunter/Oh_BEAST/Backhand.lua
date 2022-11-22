@@ -1,1 +1,1 @@
-sym.hunter.flags.backhand = true
+nightstalker.hunter.flags.backhand = true

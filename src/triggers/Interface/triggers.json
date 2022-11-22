@@ -99,7 +99,7 @@
                     "type": "exactMatch"
                 },
                 {
-                    "pattern": "return sym.ui.mapper.config.starchart",
+                    "pattern": "return nightstalker.ui.mapper.config.starchart",
                     "type": "lua"
                 }
             ],

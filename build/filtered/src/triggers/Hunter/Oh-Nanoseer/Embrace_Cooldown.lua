@@ -1,1 +1,1 @@
-sym.hunter.flags.embraced = false
+nightstalker.hunter.flags.embraced = false

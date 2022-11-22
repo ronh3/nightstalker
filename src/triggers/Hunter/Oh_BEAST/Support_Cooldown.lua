@@ -1,1 +1,1 @@
-sym.hunter.flags.support = false
+nightstalker.hunter.flags.support = false

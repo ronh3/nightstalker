@@ -1,1 +1,1 @@
-sym.hunter.flags.suffused = false
+nightstalker.hunter.flags.suffused = false

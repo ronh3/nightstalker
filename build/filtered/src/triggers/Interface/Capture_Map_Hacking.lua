@@ -1,7 +1,7 @@
 if hackclear then
 
     clearUserWindow("mapwinHacking")
-    sym.ui.mapper.switch('Hacking')
+    nightstalker.ui.mapper.switch('Hacking')
 
     hackclear = false
 

@@ -1,1 +1,1 @@
-sym.hunter.flags.frenzy = true
+nightstalker.hunter.flags.frenzy = true

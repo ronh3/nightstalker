@@ -1,1 +1,1 @@
-sym.hunter.flags.harassed = false
+nightstalker.hunter.flags.harassed = false

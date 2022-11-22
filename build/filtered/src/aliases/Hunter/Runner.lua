@@ -1,1 +1,1 @@
-sym.hunter.runner[matches[2]]()
+nightstalker.hunter.runner[matches[2]]()

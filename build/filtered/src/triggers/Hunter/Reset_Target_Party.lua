@@ -1,6 +1,6 @@
-sym.hunter = sym.hunter or {}
-sym.hunter.flags = sym.hunter.flags or {}
-sym.hunter.runner = sym.hunter.runner or {}
+nightstalker.hunter = nightstalker.hunter or {}
+nightstalker.hunter.flags = nightstalker.hunter.flags or {}
+nightstalker.hunter.runner = nightstalker.hunter.runner or {}
 
-sym.loadtable('hunter.ignore')
-sym.loadtable('hunter.exceptions')
+nightstalker.loadtable('hunter.ignore')
+nightstalker.loadtable('hunter.exceptions')

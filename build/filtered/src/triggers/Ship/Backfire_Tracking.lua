@@ -1,5 +1,5 @@
 if matches[3] ~= "No" and (tonumber(gmcp.Char.Vitals.ship_shield) > 0) then
-    send("ship restart " .. matches[2])
+    send("ship restart "..matches[2])
   end
   if matches[2] == "Engine" then
     engine_bf = matches[3]

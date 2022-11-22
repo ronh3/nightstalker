@@ -1,1 +1,1 @@
-sym.hunter.flags.contingency = true
+nightstalker.hunter.flags.contingency = true

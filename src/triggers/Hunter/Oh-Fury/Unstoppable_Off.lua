@@ -1,1 +1,1 @@
-sym.hunter.flags.unstoppable = false
+nightstalker.hunter.flags.unstoppable = false

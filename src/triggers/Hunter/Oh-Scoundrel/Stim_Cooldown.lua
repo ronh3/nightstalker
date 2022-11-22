@@ -1,1 +1,1 @@
-sym.hunter.flags.stimmed = false
+nightstalker.hunter.flags.stimmed = false

@@ -1,0 +1,1 @@
+nightstalker.hunter.priorities = nightstalker.hunter.priorities or {}

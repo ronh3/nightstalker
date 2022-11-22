@@ -1,1 +1,1 @@
-sym.ui.mapper.switch('Ground')
+nightstalker.ui.mapper.switch('Ground')

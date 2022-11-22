@@ -1,1 +1,1 @@
-sym.hunter.flags.ambushed = true
+nightstalker.hunter.flags.ambushed = true

@@ -1,2 +1,2 @@
-sym.hunter.reset[gmcp.Char.Status.class]()
-checkSystems()
+nightstalker.hunter.reset[gmcp.Char.Status.class]()
+nightstalker.hunter.checkSystems()

@@ -1,1 +1,1 @@
-sym.hunter.flags.stimmed = true
+nightstalker.hunter.flags.stimmed = true

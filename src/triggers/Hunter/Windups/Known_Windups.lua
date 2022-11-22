@@ -1,2 +1,2 @@
-windupcheck = true
+nightstalker.windupcheck = true
 send('clearqueue')

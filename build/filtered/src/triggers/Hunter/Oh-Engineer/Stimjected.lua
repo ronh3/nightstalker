@@ -1,1 +1,1 @@
-sym.hunter.flags.stimjected = true
+nightstalker.hunter.flags.stimjected = true

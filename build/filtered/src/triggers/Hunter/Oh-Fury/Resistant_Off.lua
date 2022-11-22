@@ -1,1 +1,1 @@
-sym.hunter.flags.resistant = false
+nightstalker.hunter.flags.resistant = false

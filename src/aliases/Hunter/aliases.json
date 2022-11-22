@@ -13,5 +13,10 @@
         "name": "Set_Party_Size",
         "isActive": "yes",
         "regex": "^hps(?: (\\d+))?$"
+    },
+    {
+        "name": "Call",
+        "isActive": "yes",
+        "regex": "^call (on|off)$"
     }
 ]

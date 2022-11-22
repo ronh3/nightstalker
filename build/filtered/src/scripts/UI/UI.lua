@@ -1,0 +1,1 @@
+nightstalker.ui = nightstalker.ui or {}

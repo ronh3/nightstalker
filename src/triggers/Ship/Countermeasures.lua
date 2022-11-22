@@ -1,1 +1,1 @@
-sym.hunter.flags.countermeasures = true
+nightstalker.hunter.flags.countermeasures = true

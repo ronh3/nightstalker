@@ -1,1 +1,1 @@
-sym.hunter.flags.multistrike = true
+nightstalker.hunter.flags.multistrike = true

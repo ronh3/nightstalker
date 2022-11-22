@@ -1,1 +1,1 @@
-sym.ui.mapper.switch('Space')
+nightstalker.ui.mapper.switch('Space')

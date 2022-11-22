@@ -1,1 +1,1 @@
-sym.hunter.flags.frozen = false
+nightstalker.hunter.flags.frozen = false

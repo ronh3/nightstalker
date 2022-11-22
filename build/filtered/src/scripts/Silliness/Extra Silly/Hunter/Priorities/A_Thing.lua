@@ -1,1 +1,0 @@
-sym.hunter.priorities = sym.hunter.priorities or {}

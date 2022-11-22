@@ -1,0 +1,1 @@
+nightstalker.hunter.class = nightstalker.hunter.class or {}

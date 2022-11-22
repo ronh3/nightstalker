@@ -1,1 +1,1 @@
-sym.ui.mapper.switch('Hacking')
+nightstalker.ui.mapper.switch('Hacking')
